@@ -53,7 +53,12 @@ defmodule Flashfeed.MixProject do
       {:poison, "~> 3.1"},
       {:httpoison, "~> 1.5.1"},
       {:floki, "~> 0.22.0"},
-      {:timex, "~> 3.6.1"}
+      {:timex, "~> 3.6.1"},
+      {:plug_cowboy, "~> 2.1"},
+      {:phoenix, "~> 1.4"},
+      {:phoenix_ecto, "~> 4.0"},
+      {:phoenix_html, "~> 2.13"},
+      {:phoenix_live_reload, "~> 1.2"}
     ]
   end
 end

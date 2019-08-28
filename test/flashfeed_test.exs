@@ -2,6 +2,12 @@ defmodule FlashfeedTest do
   use ExUnit.Case
   doctest Flashfeed
 
+  test "media types" do
+    assert Flashfeed.News.Crawler.Utilities.media_type("Should be a Video, not other") === "video"
+    assert Flashfeed.News.Crawler.Utilities.media_type("Should be a Audio, not other") === "audio"
+    assert Flashfeed.News.Crawler.Utilities.media_type("Should be not supported") === "unknown"
+  end
+
   test "load news sources" do
     entities = Flashfeed.News.Sources.load()
 
@@ -10,6 +16,18 @@ defmodule FlashfeedTest do
     Enum.each(entities, fn entity ->
       assert Ecto.UUID.cast(Map.get(entity, "uuid")) === {:ok, Map.get(entity, "uuid")}
     end)
+  end
+
+  test "crawler" do
+    state = Flashfeed.News.Crawler.init_state(%{})
+
+    assert state.crawler_engines["rainews"]
+    assert List.first(state.entities)["name"] === "rainews"
+
+    new_state = Flashfeed.News.Crawler.update(state)
+
+    assert new_state.entity_feeds["rainews-rainews-it-fvg-gr"]["title"] ===
+             "Edizione delle 12:10"
   end
 
   test "fetch feeds" do

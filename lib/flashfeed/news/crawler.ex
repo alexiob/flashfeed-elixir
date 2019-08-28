@@ -12,20 +12,28 @@ defmodule Flashfeed.News.Crawler do
     GenServer.start_link(__MODULE__, args)
   end
 
-  def init(state) do
+  def init_state(state) do
     entities = Flashfeed.News.Sources.load()
 
-    state =
-      state
-      |> Map.put(:entities, entities)
-      |> Map.put(:entity_feeds, %{})
-      |> Map.put(:crawler_engines, retrieve_crawler_engines())
+    state
+    |> Map.put(:entities, entities)
+    |> Map.put(:entity_feeds, %{})
+    |> Map.put(:crawler_engines, retrieve_crawler_engines())
+  end
+
+  def init(state) do
+    state = init_state(state)
 
     Logger.debug("Flashfeed.News.Crawler.init")
 
     schedule_update()
 
     {:ok, update(state)}
+  end
+
+  def update(state) do
+    entity_feeds = crawl_entities(state)
+    update_feeds(state, entity_feeds)
   end
 
   def handle_info(:crawl, state) do
@@ -40,11 +48,6 @@ defmodule Flashfeed.News.Crawler do
       :crawl,
       Application.get_env(:flashfeed, :crawler_every_seconds, 3600) * 1000
     )
-  end
-
-  defp update(state) do
-    entity_feeds = crawl_entities(state)
-    update_feeds(state, entity_feeds)
   end
 
   defp crawl_entities(state) do
