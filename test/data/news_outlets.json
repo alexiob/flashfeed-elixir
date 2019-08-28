@@ -1,0 +1,33 @@
+[{
+    "name": "rainews",
+    "title": "RAI News",
+    "country": "it",
+    "url": "https: //www.rainews.it",
+    "news_sources": [{
+            "name": "rainews",
+            "enabled": true,
+            "crawler": "rainews",
+            "title": "RAI News FVG",
+            "country": "it",
+            "region": "fvg",
+            "url": "https://www.rainews.it/tgr/fvg/notiziari/",
+            "base_url": "https://www.rainews.it",
+            "entities": {
+                "gr": "/rainews/fvg/gr"
+            }
+        },
+        {
+            "name": "rainews",
+            "enabled": false,
+            "crawler": "rainews",
+            "title": "RAI News Veneto",
+            "country": "it",
+            "region": "veneto",
+            "url": "https://www.rainews.it/tgr/veneto/notiziari/",
+            "base_url": "https://www.rainews.it",
+            "entities": {
+                "gr": "/rainews/veneto/gr"
+            }
+        }
+    ]
+}]
