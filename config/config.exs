@@ -7,6 +7,21 @@ config :flashfeed,
   crawler_news_outlets_config_path: "./priv/news_outlets.json",
   request: Flashfeed.News.Crawler.Request
 
+# Configures the endpoint
+config :flashfeed, FlashfeedWeb.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "HdiRX3eQXDSvyt+mzCVtq0mrRha0VI/MW5dyPJleMuMjvzrAskMku68+k9YnfvHq",
+  render_errors: [view: FlashfeedWeb.ErrorView, accepts: ~w(json)],
+  pubsub: [name: Flashfeed.PubSub, adapter: Phoenix.PubSub.PG2]
+
+# Configures Elixir's Logger
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
+
+config :phoenix,
+  json_library: Jason
+
 #
 # and access this configuration in your application as:
 #

@@ -12,7 +12,7 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
   def fetch(entity) do
     case @request.get(entity["url"], false) do
       {:ok, body} ->
-        # Kept here for creatingthe test data in case of changes in the input data format
+        # Kept here for creating the test data in case of changes in the input data format
         # {:ok, file} = File.open("test/data/rainews-it-source.html", [:write])
         # IO.binwrite(file, body)
         # File.close(file)
@@ -73,14 +73,25 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
     entity_feed =
       case @request.get(url, true) do
         {:ok, content} ->
-          # Kept here for creatingthe test data in case of changes in the input data format
+          # Kept here for creating the test data in case of changes in the input data format
           # filename = Path.basename(URI.parse(url).path)
           # {:ok, file} = File.open("test/data/#{filename}", [:write])
-          # IO.binwrite(file, Poison.encode!(content))
+          # IO.binwrite(file, Jason.encode!(content))
           # File.close(file)
 
           if content["count"] > 0 do
             item = List.first(content["items"])
+            updated_at = DateTime.utc_now()
+            update_date = "#{Timex.format!(updated_at, "%Y-%m-%dT%H:%M:%S", :strftime)}Z"
+
+            title_text =
+              String.replace(
+                "#{String.upcase(entity["title"])} #{String.upcase(name)} #{item["title"]}",
+                "_",
+                " "
+              )
+
+            main_text = ""
 
             {:ok,
              %{
@@ -91,7 +102,11 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
                "url" => Utilities.https_url(item["mediaUrl"]),
                "media_type" => Utilities.media_type(item["type"]),
                "key" => Utilities.entity_key(entity, name),
-               "updated_at" => DateTime.utc_now()
+               "updated_at" => updated_at,
+               "title_text" => title_text,
+               "main_text" => main_text,
+               "redirection_url" => entity["url"],
+               "update_date" => update_date
              }}
           end
 

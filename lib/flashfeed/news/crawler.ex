@@ -8,17 +8,8 @@ defmodule Flashfeed.News.Crawler do
   @fetch_feed_task_timeout 10_000
   @crawler_engine_module_signature "Elixir.Flashfeed.News.Crawler.Engine."
 
-  def start_link(args) do
-    GenServer.start_link(__MODULE__, args)
-  end
-
-  def init_state(state) do
-    entities = Flashfeed.News.Sources.load()
-
-    state
-    |> Map.put(:entities, entities)
-    |> Map.put(:entity_feeds, %{})
-    |> Map.put(:crawler_engines, retrieve_crawler_engines())
+  def start_link do
+    GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
   end
 
   def init(state) do
@@ -31,9 +22,41 @@ defmodule Flashfeed.News.Crawler do
     {:ok, update(state)}
   end
 
+  def init_state(state) do
+    entities = Flashfeed.News.Sources.load()
+
+    state
+    |> Map.put(:entities, entities)
+    |> Map.put(:entity_feeds, %{})
+    |> Map.put(:crawler_engines, retrieve_crawler_engines())
+  end
+
   def update(state) do
     entity_feeds = crawl_entities(state)
     update_feeds(state, entity_feeds)
+  end
+
+  # CLIENT FUNCTIONS
+
+  def feed(%{outlet: _, source: _, country: _, region: _, name: _} = entry_fields) do
+    entity_key = Flashfeed.News.Crawler.Utilities.entity_key(entry_fields)
+    GenServer.call(__MODULE__, {:feed, entity_key})
+  end
+
+  # MESSAGE HANDLERS
+
+  def handle_call({:feed, entity_key}, _from, state) do
+    {reply, state} =
+      case Map.get(state.entity_feeds, entity_key, nil) do
+        nil ->
+          {{:error, :unknown_key}, state}
+
+        feed ->
+          feed_data = feed_to_alexa(feed)
+          {{:ok, feed_data}, state}
+      end
+
+    {:reply, reply, state}
   end
 
   def handle_info(:crawl, state) do
@@ -42,12 +65,27 @@ defmodule Flashfeed.News.Crawler do
     {:noreply, update(state)}
   end
 
+  # PRIVATE FUNCTIONS
+
   defp schedule_update() do
     Process.send_after(
       self(),
       :crawl,
       Application.get_env(:flashfeed, :crawler_every_seconds, 3600) * 1000
     )
+  end
+
+  defp feed_to_alexa(feed) do
+    feed_entry = %{
+      "uid" => feed["uuid"],
+      "updateDate" => feed["update_date"],
+      "titleText" => feed["title_text"],
+      "mainText" => feed["main_text"],
+      "streamUrl" => feed["url"],
+      "redirectionUrl" => feed["redirection_url"]
+    }
+
+    [feed_entry]
   end
 
   defp crawl_entities(state) do

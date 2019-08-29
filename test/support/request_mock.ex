@@ -33,7 +33,7 @@ defmodule Flashfeed.News.Crawler.Request.Mock do
 
     case decode_json do
       true ->
-        {:ok, decoded_data} = Poison.decode(data)
+        {:ok, decoded_data} = Jason.decode(data)
         decoded_data
 
       false ->

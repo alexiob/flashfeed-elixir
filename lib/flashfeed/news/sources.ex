@@ -8,7 +8,7 @@ defmodule Flashfeed.News.Sources do
     filename = Application.get_env(:flashfeed, :crawler_news_outlets_config_path)
 
     with {:ok, json_data} <- File.read(filename),
-         {:ok, data} <- Poison.decode(json_data) do
+         {:ok, data} <- Jason.decode(json_data) do
       json_data_to_entities_list(data)
     else
       {:error, reason} ->

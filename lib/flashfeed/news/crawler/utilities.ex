@@ -6,7 +6,11 @@ defmodule Flashfeed.News.Crawler.Utilities do
   @media_type_unknown "unknown"
 
   def entity_key(entity, name) do
-    "#{entity["outlet_name"]}-#{entity["name"]}-#{entity["country"]}-#{entity["region"]}-#{name}"
+    entity_key(%{outlet: entity["outlet_name"], source: entity["name"], country: entity["country"], region: entity["region"], name: name})
+  end
+
+  def entity_key(%{outlet: outlet, source: source, country: country, region: region, name: name}) do
+    "#{outlet}-#{source}-#{country}-#{region}-#{name}"
   end
 
   def entity_uuid() do
@@ -24,6 +28,6 @@ defmodule Flashfeed.News.Crawler.Utilities do
   end
 
   def https_url(url) do
-    URI.to_string(%URI{URI.parse(url) | scheme: "https"})
+    URI.to_string(%URI{URI.parse(url) | scheme: "https", port: nil})
   end
 end

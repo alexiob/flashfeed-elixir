@@ -9,6 +9,7 @@ defmodule Flashfeed.MixProject do
       description: description(),
       package: package(),
       elixirc_paths: elixirc_paths(Mix.env()),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -19,7 +20,7 @@ defmodule Flashfeed.MixProject do
     if Mix.env() != :test do
       [
         mod: {Flashfeed.Application, []},
-        extra_applications: [:logger, :timex]
+        extra_applications: [:logger, :timex, :runtime_tools]
       ]
     else
       [
@@ -33,13 +34,13 @@ defmodule Flashfeed.MixProject do
 
   defp description do
     """
-    Local Radio news feed for Alexa.
+    Local radio news feed for Alexa.
     """
   end
 
   defp package do
     [
-      files: ["lib", "mix.exs", "README.md", "LICENSE"],
+      files: ["lib", "priv", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["Alessandro Iob"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/alexiob/flashfeed-elixir"}
@@ -49,15 +50,15 @@ defmodule Flashfeed.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:jason, "~> 1.1"},
       {:ecto, "~> 3.1.7"},
-      {:poison, "~> 3.1"},
       {:httpoison, "~> 1.5.1"},
       {:floki, "~> 0.22.0"},
       {:timex, "~> 3.6.1"},
       {:plug_cowboy, "~> 2.1"},
-      {:phoenix, "~> 1.4"},
+      {:phoenix, "~> 1.4.9"},
+      {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
-      {:phoenix_html, "~> 2.13"},
       {:phoenix_live_reload, "~> 1.2"}
     ]
   end

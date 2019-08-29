@@ -5,7 +5,7 @@ defmodule Flashfeed.News.Crawler.Request do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         case decode_json === true do
-          true -> body |> Poison.decode()
+          true -> body |> Jason.decode()
           false -> {:ok, body}
         end
 
