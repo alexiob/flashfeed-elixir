@@ -18,7 +18,7 @@ mix run --no-halt
 
 ## Endpoint Test
 
-````sh
+```sh
 curl -X GET https://flashfeed.iob.toys/v1/api/alexa/flashfeed/rainews/rainews/it/fvg/gr
 ```
 
@@ -28,4 +28,3 @@ curl -X GET https://flashfeed.iob.toys/v1/api/alexa/flashfeed/rainews/rainews/it
 - [x] feeds crawler tests
 - [x] dynamic API endpoints for feeds
 - [ ] Docker build/release
-````
