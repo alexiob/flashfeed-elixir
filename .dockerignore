@@ -1,0 +1,11 @@
+_build/
+.elixir_ls/
+.git/
+.vscode/
+deps/
+.dockerignore
+.env
+.gitignore
+.travis.yml
+Dockerfile
+README.md

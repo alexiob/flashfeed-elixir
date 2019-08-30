@@ -8,6 +8,7 @@ defmodule Flashfeed.MixProject do
       elixir: "~> 1.9",
       description: description(),
       package: package(),
+      # releases: releases(),
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -45,6 +46,20 @@ defmodule Flashfeed.MixProject do
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/alexiob/flashfeed-elixir"}
     ]
+  end
+
+  defp releases do
+    case Mix.env() do
+      :prod ->
+        [
+          prod: [
+            include_executables_for: [:unix]
+          ]
+        ]
+
+      _ ->
+        []
+    end
   end
 
   # Run "mix help deps" to learn about dependencies.
