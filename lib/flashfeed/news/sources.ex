@@ -5,7 +5,13 @@ defmodule Flashfeed.News.Sources do
 
   @spec load :: [any] | {:error, atom}
   def load() do
-    filename = Application.get_env(:flashfeed, :crawler_news_outlets_config_path)
+    filename =
+      Path.join([
+        Application.app_dir(:flashfeed),
+        Application.get_env(:flashfeed, :crawler_news_outlets_config_path)
+      ])
+
+    Logger.debug("Flashfeed.News.Source.load: loading '#{filename}'...")
 
     with {:ok, json_data} <- File.read(filename),
          {:ok, data} <- Jason.decode(json_data) do

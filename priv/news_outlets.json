@@ -11,10 +11,7 @@
             "country": "it",
             "region": "fvg",
             "url": "https://www.rainews.it/tgr/fvg/notiziari/",
-            "base_url": "https://www.rainews.it",
-            "entities": {
-                "gr": "/rainews/fvg/gr"
-            }
+            "base_url": "https://www.rainews.it"
         },
         {
             "name": "rainews",
@@ -24,10 +21,7 @@
             "country": "it",
             "region": "veneto",
             "url": "https://www.rainews.it/tgr/veneto/notiziari/",
-            "base_url": "https://www.rainews.it",
-            "entities": {
-                "gr": "/rainews/veneto/gr"
-            }
+            "base_url": "https://www.rainews.it"
         }
     ]
 }]

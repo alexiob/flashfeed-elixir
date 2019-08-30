@@ -6,7 +6,13 @@ defmodule Flashfeed.News.Crawler.Utilities do
   @media_type_unknown "unknown"
 
   def entity_key(entity, name) do
-    entity_key(%{outlet: entity["outlet_name"], source: entity["name"], country: entity["country"], region: entity["region"], name: name})
+    entity_key(%{
+      outlet: entity["outlet_name"],
+      source: entity["name"],
+      country: entity["country"],
+      region: entity["region"],
+      name: name
+    })
   end
 
   def entity_key(%{outlet: outlet, source: source, country: country, region: region, name: name}) do

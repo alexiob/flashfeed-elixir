@@ -56,10 +56,12 @@ defmodule Flashfeed.MixProject do
       {:floki, "~> 0.22.0"},
       {:timex, "~> 3.6.1"},
       {:plug_cowboy, "~> 2.1"},
+      {:observer_cli, "~> 1.5"},
       {:phoenix, "~> 1.4.9"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
-      {:phoenix_live_reload, "~> 1.2"}
+      {:phoenix_live_reload, "~> 1.2", only: [:dev]},
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev], runtime: false}
     ]
   end
 end
