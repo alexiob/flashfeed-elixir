@@ -8,7 +8,6 @@ defmodule Flashfeed.MixProject do
       elixir: "~> 1.9",
       description: description(),
       package: package(),
-      # releases: releases(),
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -48,20 +47,6 @@ defmodule Flashfeed.MixProject do
     ]
   end
 
-  defp releases do
-    case Mix.env() do
-      :prod ->
-        [
-          prod: [
-            include_executables_for: [:unix]
-          ]
-        ]
-
-      _ ->
-        []
-    end
-  end
-
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
@@ -71,6 +56,7 @@ defmodule Flashfeed.MixProject do
       {:floki, "~> 0.22.0"},
       {:timex, "~> 3.6.1"},
       {:plug_cowboy, "~> 2.1"},
+      {:exconstructor, "~> 1.1"},
       {:observer_cli, "~> 1.5"},
       {:phoenix, "~> 1.4.9"},
       {:phoenix_pubsub, "~> 1.1"},

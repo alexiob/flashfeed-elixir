@@ -9,8 +9,8 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
 
   @fetch_entity_task_timeout 10_000
 
-  def fetch(entity) do
-    case @request.get(entity["url"], false) do
+  def fetch(%Flashfeed.News.Entity{} = entity) do
+    case @request.get(entity.url, false) do
       {:ok, body} ->
         # Kept here for creating the test data in case of changes in the input data format
         # {:ok, file} = File.open("test/data/rainews-it-source.html", [:write])
@@ -29,8 +29,7 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
                 |> String.downcase()
                 |> String.replace(" ", "_")
 
-              content_url =
-                "#{entity["base_url"]}#{List.first(Floki.attribute(feed, "data-feed"))}"
+              content_url = "#{entity.base_url}#{List.first(Floki.attribute(feed, "data-feed"))}"
 
               fetch_entity_feed(name, content_url, entity)
             end)
@@ -48,28 +47,29 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
     new_entity_feeds =
       Keyword.get_values(new_entity_feeds, :ok)
       |> Enum.filter(fn feed ->
-        current_feed = Map.get(current_entity_feeds, feed["key"], nil)
+        current_feed = Map.get(current_entity_feeds, feed.key, nil)
         is_updated(current_feed, feed)
       end)
       |> Enum.reduce(%{}, fn feed, acc ->
-        Map.put(acc, feed["key"], feed)
+        Map.put(acc, feed.key, feed)
       end)
 
     Map.merge(current_entity_feeds, new_entity_feeds)
   end
 
-  defp is_updated(cur, new) do
+  @doc false
+  def is_updated(cur, %Flashfeed.News.Feed{} = new) do
     case cur do
       nil ->
         true
 
       _ ->
-        !(cur["url"] === new["url"] && cur["title"] === new["title"] &&
-            cur["date"] === new["date"])
+        !(cur.url === new.url && cur.title === new.title &&
+            cur.date === new.date)
     end
   end
 
-  defp fetch_entity_feed(name, url, entity) do
+  defp fetch_entity_feed(name, url, %Flashfeed.News.Entity{} = entity) do
     entity_feed =
       case @request.get(url, true) do
         {:ok, content} ->
@@ -86,7 +86,7 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
 
             title_text =
               String.replace(
-                "#{String.upcase(entity["title"])} #{String.upcase(name)} #{item["title"]}",
+                "#{String.upcase(entity.title)} #{String.upcase(name)} #{item["title"]}",
                 "_",
                 " "
               )
@@ -94,25 +94,25 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
             main_text = ""
 
             {:ok,
-             %{
-               "name" => name,
-               "uuid" => Utilities.entity_uuid(),
-               "title" => item["title"],
-               "date" => parse_date(item["date"]),
-               "url" => Utilities.https_url(item["mediaUrl"]),
-               "media_type" => Utilities.media_type(item["type"]),
-               "key" => Utilities.entity_key(entity, name),
-               "updated_at" => updated_at,
-               "title_text" => title_text,
-               "main_text" => main_text,
-               "redirection_url" => entity["url"],
-               "update_date" => update_date
+             %Flashfeed.News.Feed{
+               uuid: Utilities.entity_uuid(),
+               name: name,
+               title: item["title"],
+               date: parse_date(item["date"]),
+               url: Utilities.https_url(item["mediaUrl"]),
+               media_type: Utilities.media_type(item["type"]),
+               key: Utilities.entity_key(entity, name),
+               updated_at: updated_at,
+               title_text: title_text,
+               main_text: main_text,
+               redirection_url: entity.url,
+               update_date: update_date
              }}
           end
 
         {:error, reason} ->
           {:error,
-           "Flashfeed.News.Crawler.RaiNews.fetch: error fetching '#{entity["entity_name"]}' content URL '#{
+           "Flashfeed.News.Crawler.RaiNews.fetch: error fetching '#{entity.name}' content URL '#{
              url
            }': #{reason}"}
       end

@@ -35,6 +35,7 @@ defmodule Flashfeed.News.Sources do
         "outlet_title" => news_outlet["title"],
         "outlet_url" => news_outlet["url"]
       })
+      |> Flashfeed.News.Entity.new()
     end
   end
 end

@@ -22,6 +22,7 @@ defmodule Flashfeed.News.Crawler do
     {:ok, update(state)}
   end
 
+  @doc false
   def init_state(state) do
     entities = Flashfeed.News.Sources.load()
 
@@ -75,14 +76,15 @@ defmodule Flashfeed.News.Crawler do
     )
   end
 
-  defp feed_to_alexa(feed) do
+  @doc false
+  def feed_to_alexa(feed) do
     feed_entry = %{
-      "uid" => feed["uuid"],
-      "updateDate" => feed["update_date"],
-      "titleText" => feed["title_text"],
-      "mainText" => feed["main_text"],
-      "streamUrl" => feed["url"],
-      "redirectionUrl" => feed["redirection_url"]
+      "uid" => feed.uuid,
+      "updateDate" => feed.update_date,
+      "titleText" => feed.title_text,
+      "mainText" => feed.main_text,
+      "streamUrl" => feed.url,
+      "redirectionUrl" => feed.redirection_url
     }
 
     [feed_entry]
@@ -95,17 +97,17 @@ defmodule Flashfeed.News.Crawler do
       Enum.map(state.entities, fn entity ->
         Task.async(fn ->
           Logger.debug(
-            "Flashfeed.News.Crawler.crawl: entity '#{entity["name"]}-#{entity["country"]}-#{
-              entity["region"]
+            "Flashfeed.News.Crawler.crawl: entity '#{entity.name}-#{entity.country}-#{
+              entity.region
             }'"
           )
 
-          crawler = Map.get(state.crawler_engines, entity["crawler"], nil)
+          crawler = Map.get(state.crawler_engines, entity.crawler, nil)
 
           if !crawler do
             {:error,
-             "Flashfeed.News.Crawler.crawl: entity '#{entity["name"]}' has an unknown crawler engine named '#{
-               entity["crawler"]
+             "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' has an unknown crawler engine named '#{
+               entity.crawler
              }'"}
           else
             case crawler.fetch(entity) do
@@ -115,8 +117,8 @@ defmodule Flashfeed.News.Crawler do
 
               {:error, reason} ->
                 {:error,
-                 "Flashfeed.News.Crawler.crawl: entity '#{entity["name"]}' crawler engine '#{
-                   entity["crawler"]
+                 "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' crawler engine '#{
+                   entity.crawler
                  }' errored as #{reason}"}
             end
           end

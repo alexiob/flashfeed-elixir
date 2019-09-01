@@ -5,12 +5,12 @@ defmodule Flashfeed.News.Crawler.Utilities do
   @media_type_audio "audio"
   @media_type_unknown "unknown"
 
-  def entity_key(entity, name) do
+  def entity_key(%Flashfeed.News.Entity{} = entity, name) do
     entity_key(%{
-      outlet: entity["outlet_name"],
-      source: entity["name"],
-      country: entity["country"],
-      region: entity["region"],
+      outlet: entity.outlet_name,
+      source: entity.name,
+      country: entity.country,
+      region: entity.region,
       name: name
     })
   end
