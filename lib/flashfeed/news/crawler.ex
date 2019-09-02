@@ -12,7 +12,7 @@ defmodule Flashfeed.News.Crawler do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
-  @impl GenServer
+  @impl true
   def init(_) do
     state = init_state(%{})
 
@@ -47,7 +47,7 @@ defmodule Flashfeed.News.Crawler do
 
   # MESSAGE HANDLERS
 
-  @impl GenServer
+  @impl true
   def handle_call({:feed, entity_key}, _from, state) do
     {reply, state} =
       case Map.get(state.entity_feeds, entity_key, nil) do
@@ -62,7 +62,7 @@ defmodule Flashfeed.News.Crawler do
     {:reply, reply, state}
   end
 
-  @impl GenServer
+  @impl true
   def handle_info(:crawl, state) do
     schedule_update()
 

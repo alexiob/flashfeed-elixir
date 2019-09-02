@@ -1,5 +1,6 @@
 defmodule Flashfeed.News.Crawler.Engine.RaiNews do
   @moduledoc false
+  @behaviour Flashfeed.News.Crawler.Engine
 
   require Logger
 
@@ -9,6 +10,7 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
 
   @fetch_entity_task_timeout 10_000
 
+  @impl Flashfeed.News.Crawler.Engine
   def fetch(%Flashfeed.News.Entity{} = entity) do
     case @request.get(entity.url, false) do
       {:ok, body} ->
@@ -43,6 +45,7 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
     end
   end
 
+  @impl Flashfeed.News.Crawler.Engine
   def update(current_entity_feeds, new_entity_feeds) do
     new_entity_feeds =
       Keyword.get_values(new_entity_feeds, :ok)

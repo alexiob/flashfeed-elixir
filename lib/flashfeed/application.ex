@@ -5,6 +5,7 @@ defmodule Flashfeed.Application do
 
   require Logger
 
+  @impl true
   def start(_type, _args) do
     Logger.debug("Flashfeed.Application.start: starting...")
 
@@ -18,6 +19,7 @@ defmodule Flashfeed.Application do
     Supervisor.start_link(children, opts)
   end
 
+  @impl true
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
