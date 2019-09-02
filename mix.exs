@@ -57,6 +57,7 @@ defmodule Flashfeed.MixProject do
       {:timex, "~> 3.6.1"},
       {:plug_cowboy, "~> 2.1"},
       {:exconstructor, "~> 1.1"},
+      {:spellbook, "~> 2.0.2"},
       {:observer_cli, "~> 1.5"},
       {:phoenix, "~> 1.4.9"},
       {:phoenix_pubsub, "~> 1.1"},

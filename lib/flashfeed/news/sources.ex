@@ -13,9 +13,22 @@ defmodule Flashfeed.News.Sources do
 
     Logger.debug("Flashfeed.News.Source.load: loading '#{filename}'...")
 
+    config = load_config(filename, :spellbook)
+    json_data_to_entities_list(config["outlets"])
+  end
+
+  defp load_config(filename, :spellbook) do
+    Spellbook.default_config()
+    |> Spellbook.load_config(
+      folder: Path.dirname(filename),
+      config_filename: Path.basename(filename, Path.extname(filename))
+    )
+  end
+
+  defp load_config(filename, :json) do
     with {:ok, json_data} <- File.read(filename),
          {:ok, data} <- Jason.decode(json_data) do
-      json_data_to_entities_list(data)
+      data
     else
       {:error, reason} ->
         Logger.error("Flashfeed.News.Source.load: error loading '#{filename}': #{reason}")

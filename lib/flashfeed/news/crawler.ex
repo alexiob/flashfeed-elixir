@@ -12,7 +12,7 @@ defmodule Flashfeed.News.Crawler do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
-  @impl true
+  @impl GenServer
   def init(_) do
     state = init_state(%{})
 
@@ -47,7 +47,7 @@ defmodule Flashfeed.News.Crawler do
 
   # MESSAGE HANDLERS
 
-  @impl true
+  @impl GenServer
   def handle_call({:feed, entity_key}, _from, state) do
     {reply, state} =
       case Map.get(state.entity_feeds, entity_key, nil) do
@@ -62,23 +62,14 @@ defmodule Flashfeed.News.Crawler do
     {:reply, reply, state}
   end
 
-  @impl true
+  @impl GenServer
   def handle_info(:crawl, state) do
     schedule_update()
 
     {:noreply, update(state)}
   end
 
-  # PRIVATE FUNCTIONS
-
-  defp schedule_update() do
-    Process.send_after(
-      self(),
-      :crawl,
-      Application.get_env(:flashfeed, :crawler_every_seconds, 3600) * 1000
-    )
-  end
-
+  # Public for testing
   @doc false
   def feed_to_alexa(feed) do
     feed_entry = %{
@@ -91,6 +82,16 @@ defmodule Flashfeed.News.Crawler do
     }
 
     [feed_entry]
+  end
+
+  # PRIVATE FUNCTIONS
+
+  defp schedule_update() do
+    Process.send_after(
+      self(),
+      :crawl,
+      Application.get_env(:flashfeed, :crawler_every_seconds, 3600) * 1000
+    )
   end
 
   defp crawl_entities(state) do
