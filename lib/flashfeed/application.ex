@@ -6,14 +6,12 @@ defmodule Flashfeed.Application do
   require Logger
 
   def start(_type, _args) do
-    import Supervisor.Spec
-
     Logger.debug("Flashfeed.Application.start: starting...")
 
     # List all child processes to be supervised
     children = [
-      supervisor(FlashfeedWeb.Endpoint, []),
-      worker(Flashfeed.News.Crawler, [])
+      FlashfeedWeb.Endpoint,
+      Flashfeed.News.Crawler
     ]
 
     opts = [strategy: :one_for_one, name: Flashfeed.Supervisor]

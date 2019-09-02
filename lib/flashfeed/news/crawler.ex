@@ -8,12 +8,13 @@ defmodule Flashfeed.News.Crawler do
   @fetch_feed_task_timeout 10_000
   @crawler_engine_module_signature "Elixir.Flashfeed.News.Crawler.Engine."
 
-  def start_link do
-    GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
-  def init(state) do
-    state = init_state(state)
+  @impl true
+  def init(_) do
+    state = init_state(%{})
 
     Logger.debug("Flashfeed.News.Crawler.init")
 
@@ -46,6 +47,7 @@ defmodule Flashfeed.News.Crawler do
 
   # MESSAGE HANDLERS
 
+  @impl true
   def handle_call({:feed, entity_key}, _from, state) do
     {reply, state} =
       case Map.get(state.entity_feeds, entity_key, nil) do
@@ -60,6 +62,7 @@ defmodule Flashfeed.News.Crawler do
     {:reply, reply, state}
   end
 
+  @impl true
   def handle_info(:crawl, state) do
     schedule_update()
 
