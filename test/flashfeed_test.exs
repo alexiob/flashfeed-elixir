@@ -56,8 +56,11 @@ defmodule FlashfeedTest do
           assert length(Map.keys(entity_feeds)) === length(new_entity_feeds)
           assert %Flashfeed.News.Feed{} = entity_feeds["rainews-rainews-it-fvg-gr"]
 
-          alexa_feed =
-            Flashfeed.News.Crawler.feed_to_alexa(entity_feeds["rainews-rainews-it-fvg-gr"])
+          {:ok, alexa_feed} =
+            Flashfeed.News.Crawler.feed_to_format(
+              entity_feeds["rainews-rainews-it-fvg-gr"],
+              :amazon_alexa
+            )
 
           assert is_list(alexa_feed) && length(alexa_feed) === 1
 

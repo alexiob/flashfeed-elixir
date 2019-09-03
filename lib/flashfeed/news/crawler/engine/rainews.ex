@@ -1,5 +1,7 @@
 defmodule Flashfeed.News.Crawler.Engine.RaiNews do
-  @moduledoc false
+  @moduledoc """
+  Rai News feed crawler.
+  """
   @behaviour Flashfeed.News.Crawler.Engine
 
   require Logger

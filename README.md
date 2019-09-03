@@ -1,6 +1,6 @@
 # Flashfeed (Elixir version)
 
-Local radio news feed for Alexa, build with Elixir
+Local radio news feed for Amazon (and friends, eventually), build with Elixir
 
 ## Local Build
 
@@ -32,11 +32,11 @@ docker run --name flashfeed-elixir --rm -p 41384:41384 -t flashfeed-elixir:lates
 Local:
 
 ```sh
-curl -X GET https://localhost:41384/v1/api/alexa/flashfeed/rainews/rainews/it/fvg/gr
+curl -X GET https://localhost:41384/api/v1/amazon_alexa/rainews/rainews/it/fvg/gr
 ```
 
 Deployment:
 
 ```sh
-curl -X GET https://flashfeed.iob.toys/v1/api/alexa/flashfeed/rainews/rainews/it/fvg/gr
+curl -X GET https://flashfeed.iob.toys/api/v1/amazon_alexa/rainews/rainews/it/fvg/gr
 ```

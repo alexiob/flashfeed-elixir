@@ -3,7 +3,7 @@ defmodule Flashfeed.News.Sources do
 
   require Logger
 
-  @spec load :: [any] | {:error, atom}
+  @spec load :: [Flashfeed.News.Entity.t()] | {:error, atom}
   def load() do
     filename =
       Path.join([

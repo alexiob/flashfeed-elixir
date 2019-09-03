@@ -23,7 +23,9 @@ defmodule Flashfeed.News.Crawler do
     {:ok, update(state)}
   end
 
-  @doc false
+  @doc """
+  This is public so it can be used in tests. Is this the proper approach?
+  """
   def init_state(state) do
     entities = Flashfeed.News.Sources.load()
 
@@ -33,6 +35,9 @@ defmodule Flashfeed.News.Crawler do
     |> Map.put(:crawler_engines, retrieve_crawler_engines())
   end
 
+  @doc """
+  Updates the `entity_feeds` state entry with the latest news feeds, if any.
+  """
   def update(state) do
     entity_feeds = crawl_entities(state)
     update_feeds(state, entity_feeds)
@@ -40,23 +45,25 @@ defmodule Flashfeed.News.Crawler do
 
   # CLIENT FUNCTIONS
 
-  def feed(%{outlet: _, source: _, country: _, region: _, name: _} = entry_fields) do
+  @doc """
+  Gets the feed
+  """
+  def feed(%{outlet: _, source: _, country: _, region: _, name: _, format: format} = entry_fields) do
     entity_key = Flashfeed.News.Crawler.Utilities.entity_key(entry_fields)
-    GenServer.call(__MODULE__, {:feed, entity_key})
+    GenServer.call(__MODULE__, {:feed, entity_key, format})
   end
 
   # MESSAGE HANDLERS
 
   @impl true
-  def handle_call({:feed, entity_key}, _from, state) do
+  def handle_call({:feed, entity_key, format}, _from, state) do
     {reply, state} =
       case Map.get(state.entity_feeds, entity_key, nil) do
         nil ->
           {{:error, :unknown_key}, state}
 
         feed ->
-          feed_data = feed_to_alexa(feed)
-          {{:ok, feed_data}, state}
+          {feed_to_format(feed, format), state}
       end
 
     {:reply, reply, state}
@@ -69,9 +76,20 @@ defmodule Flashfeed.News.Crawler do
     {:noreply, update(state)}
   end
 
-  # Public for testing
-  @doc false
-  def feed_to_alexa(feed) do
+  # Public, for testing purposes
+  @doc """
+  Supported formats are:
+  * :amazon_alexa
+  """
+  def feed_to_format(feed, format) do
+    case format do
+      :amazon_alexa -> {:ok, feed_to_amazon_alexa(feed)}
+      :google_assistant -> {:ok, feed_to_google_assistant(feed)}
+      _ -> {:error, "unknown '#{format}' feed format "}
+    end
+  end
+
+  defp feed_to_amazon_alexa(feed) do
     feed_entry = %{
       "uid" => feed.uuid,
       "updateDate" => feed.update_date,
@@ -82,6 +100,10 @@ defmodule Flashfeed.News.Crawler do
     }
 
     [feed_entry]
+  end
+
+  defp feed_to_google_assistant(_feed) do
+    throw("not implemented")
   end
 
   # PRIVATE FUNCTIONS
@@ -95,8 +117,6 @@ defmodule Flashfeed.News.Crawler do
   end
 
   defp crawl_entities(state) do
-    # Logger.debug("Flashfeed.News.Crawler.crawl")
-
     entity_feeds =
       Enum.map(state.entities, fn entity ->
         Task.async(fn ->
@@ -149,6 +169,8 @@ defmodule Flashfeed.News.Crawler do
     %{state | entity_feeds: entity_feeds}
   end
 
+  # Scans all modules in search for the ones starting with the given prefix.
+  # The engine name is the lowercase version of the last module name part.
   defp retrieve_crawler_engines() do
     with {:ok, modules_list} = :application.get_key(:flashfeed, :modules) do
       modules_list

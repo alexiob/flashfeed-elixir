@@ -1,5 +1,8 @@
 defmodule Flashfeed.News.Crawler.Request do
-  @moduledoc false
+  @moduledoc """
+  Abstracts all HTTP client specific interactions.
+  During tests it is replaced with Flashfeed.News.Crawler.Request.Mock
+  """
 
   def get(url, decode_json) do
     case HTTPoison.get(url) do

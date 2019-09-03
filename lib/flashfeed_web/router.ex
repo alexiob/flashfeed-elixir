@@ -5,11 +5,11 @@ defmodule FlashfeedWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/v1/api", FlashfeedWeb do
+  scope "/api/v1", FlashfeedWeb do
     pipe_through :api
 
     get "/version", UtilitiesController, :version
 
-    get "/alexa/flashfeed/:outlet/:source/:country/:region/:name", FeedController, :get
+    get "/:format/:outlet/:source/:country/:region/:name", FeedController, :show
   end
 end

@@ -1,5 +1,4 @@
 defmodule Flashfeed.News.Crawler.Request.Mock do
-  # .Mock do
   @moduledoc false
 
   @url_news_source_prefix ~r/^https\:\/\/www\.rainews\.it\/tgr\/([[:alnum:]])+\/notiziari\//ui

@@ -1,3 +1,4 @@
+# this is important: if _build is copied into the docker container, releases will NOT work
 _build/
 .elixir_ls/
 .git/
