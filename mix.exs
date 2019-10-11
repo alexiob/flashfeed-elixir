@@ -52,7 +52,7 @@ defmodule Flashfeed.MixProject do
     [
       {:jason, "~> 1.1"},
       {:ecto, "~> 3.1.7"},
-      {:httpoison, "~> 1.5.1"},
+      {:httpoison, "~> 1.6.1"},
       {:floki, "~> 0.22.0"},
       {:timex, "~> 3.6.1"},
       {:plug_cowboy, "~> 2.1"},
