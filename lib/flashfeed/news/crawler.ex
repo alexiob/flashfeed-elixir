@@ -143,7 +143,7 @@ defmodule Flashfeed.News.Crawler do
                 {:error,
                  "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' crawler engine '#{
                    entity.crawler
-                 }' errored as #{reason}"}
+                 }' errored as #{inspect(reason)}"}
             end
           end
         end)
