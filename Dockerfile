@@ -38,6 +38,7 @@ COPY . .
 RUN mix format --check-formatted && \
     mix compile --force --warnings-as-errors && \
     MIX_ENV=test mix test --exclude integration && \
+    yarn --cwd=./assets --prod run deploy && \
     mix phx.digest && \
     mix release --overwrite
 

@@ -46,6 +46,13 @@ defmodule Flashfeed.News.Crawler do
   # CLIENT FUNCTIONS
 
   @doc """
+  List available feeds
+  """
+  def entity_feeds() do
+    GenServer.call(__MODULE__, {:entity_feeds})
+  end
+
+  @doc """
   Gets the feed
   """
   def feed(%{outlet: _, source: _, country: _, region: _, name: _, format: format} = entry_fields) do
@@ -54,6 +61,11 @@ defmodule Flashfeed.News.Crawler do
   end
 
   # MESSAGE HANDLERS
+
+  @impl true
+  def handle_call({:entity_feeds}, _from, state) do
+    {:reply, state.entity_feeds, state}
+  end
 
   @impl true
   def handle_call({:feed, entity_key, format}, _from, state) do

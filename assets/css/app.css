@@ -1,0 +1,105 @@
+/* This file is for your main application css. */
+
+@import "./phoenix.css";
+@import "./live_view.css";
+
+body {
+  background-color: #4d0061;
+  color: #f4f5f6;
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 1.6em;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.ff-logo {
+  min-width: 300px;
+  margin: auto;
+  /* display: block; */
+  /* flex-basis: 527px;
+  margin: 2rem 1rem; */
+}
+
+.ff-logo img {
+  width: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ff-logo-title {
+  background-color: #4d0061;
+  color: #f4f5f6;
+  /* font-family: "Helvetica", "Arial", sans-serif; */
+  font-size: 2.8em;
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
+}
+
+.ff-search {
+  background-color: #4d0061;
+  color: #f4f5f6;
+  /* font-family: "Helvetica", "Arial", sans-serif; */
+  font-size: 1.4em;
+}
+
+.ff-results {
+  background-color: #4d0061;
+  color: #f4f5f6;
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 1em;
+  text-align: left;
+}
+
+pre {
+  padding: 1em;
+}
+
+[data-phx-view] {
+  padding: 1em;
+}
+
+.datalist-polyfill {
+  list-style: none;
+  display: none;
+  background: white;
+  box-shadow: 0 2px 2px #999;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.datalist-polyfill:empty {
+  display: none !important;
+}
+
+.datalist-polyfill > li {
+  padding: 3px;
+  font: 13px "Lucida Grande", Sans-Serif;
+}
+
+.datalist-polyfill__active {
+  background: #3875d7;
+  color: white;
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+form[phx-submit="load-more"] button {
+  margin-bottom: 200px;
+}

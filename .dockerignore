@@ -10,3 +10,4 @@ deps/
 .travis.yml
 Dockerfile
 README.md
+priv/static/
