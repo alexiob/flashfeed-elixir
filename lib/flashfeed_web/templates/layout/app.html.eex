@@ -7,6 +7,9 @@
     <title>Flashfeed</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+
+    <link href="https://vjs.zencdn.net/7.6.5/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
   </head>
   <body>
     <header>
@@ -23,5 +26,7 @@
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
+
+     <script src='https://vjs.zencdn.net/7.6.5/video.js'></script>
   </body>
 </html>

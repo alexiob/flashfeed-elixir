@@ -4,6 +4,8 @@ defmodule Flashfeed.News.Crawler.Request do
   During tests it is replaced with Flashfeed.News.Crawler.Request.Mock
   """
 
+  require Logger
+
   def get(url, decode_json) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -12,8 +14,17 @@ defmodule Flashfeed.News.Crawler.Request do
           false -> {:ok, body}
         end
 
+      {:ok, %HTTPoison.Response{status_code: 301, headers: headers}} ->
+        # moved permanently
+        {"Location", new_url} = List.keyfind(headers, "Location", 0)
+        Logger.debug("Flashfeed.News.Crawler.Request: redirecting from #{url} to #{new_url}")
+        get(new_url, decode_json)
+
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         {:error, "Content Not found"}
+
+      {:ok, response = %HTTPoison.Response{}} ->
+        {:error, "Unsupported response: #{inspect(response)}"}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}

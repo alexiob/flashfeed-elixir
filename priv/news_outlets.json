@@ -1,29 +1,112 @@
 {
-    "outlets": [{
-        "name": "rainews",
-        "title": "RAI News",
-        "country": "it",
-        "url": "https: //www.rainews.it",
-        "news_sources": [{
-                "name": "rainews",
-                "enabled": true,
-                "crawler": "rainews",
-                "title": "RAI News FVG",
-                "country": "it",
-                "region": "fvg",
-                "url": "https://www.rainews.it/tgr/fvg/notiziari/",
-                "base_url": "https://www.rainews.it"
-            },
-            {
-                "name": "rainews",
-                "enabled": false,
-                "crawler": "rainews",
-                "title": "RAI News Veneto",
-                "country": "it",
-                "region": "veneto",
-                "url": "https://www.rainews.it/tgr/veneto/notiziari/",
-                "base_url": "https://www.rainews.it"
-            }
-        ]
-    }]
+  "outlets": [
+    {
+      "name": "rainews",
+      "title": "RAI News",
+      "country": "it",
+      "url": "https: //www.rainews.it",
+      "news_sources": [
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News FVG",
+          "country": "it",
+          "region": "fvg",
+          "url": "https://www.rainews.it/tgr/fvg/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Abruzzo",
+          "country": "it",
+          "region": "abruzzo",
+          "url": "https://www.rainews.it/tgr/abruzzo/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Basilicata",
+          "country": "it",
+          "region": "basilicata",
+          "url": "https://www.rainews.it/tgr/basilicata/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Calabria",
+          "country": "it",
+          "region": "calabria",
+          "url": "https://www.rainews.it/tgr/calabria/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Campania",
+          "country": "it",
+          "region": "campania",
+          "url": "https://www.rainews.it/tgr/campania/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Furlanija Julijska krajina",
+          "country": "it",
+          "region": "fjk",
+          "url": "https://www.rainews.it/tgr/fjk/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Lazio",
+          "country": "it",
+          "region": "lazio",
+          "url": "https://www.rainews.it/tgr/lazio/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Liguria",
+          "country": "it",
+          "region": "liguria",
+          "url": "https://www.rainews.it/tgr/liguria/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Emilia Romagna",
+          "country": "it",
+          "region": "emiliaromagna",
+          "url": "https://www.rainews.it/tgr/emiliaromagna/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        },
+        {
+          "name": "rainews",
+          "enabled": true,
+          "crawler": "rainews",
+          "title": "RAI News Veneto",
+          "country": "it",
+          "region": "veneto",
+          "url": "https://www.rainews.it/tgr/veneto/notiziari/index.html?/tgr/rainews.html",
+          "base_url": "https://www.rainews.it"
+        }
+      ]
+    }
+  ]
 }

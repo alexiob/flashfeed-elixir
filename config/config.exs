@@ -6,7 +6,8 @@ config :flashfeed,
   env: Mix.env(),
   crawler_every_seconds: 3600,
   crawler_news_outlets_config_path: "priv/news_outlets.json",
-  request: Flashfeed.News.Crawler.Request
+  request: Flashfeed.News.Crawler.Request,
+  supported_media_types: ["audio"]
 
 # Configures the endpoint
 config :flashfeed, FlashfeedWeb.Endpoint,
