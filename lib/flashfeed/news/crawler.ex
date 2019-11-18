@@ -7,6 +7,7 @@ defmodule Flashfeed.News.Crawler do
 
   @fetch_feed_task_timeout 10_000
   @crawler_engine_module_signature "Elixir.Flashfeed.News.Crawler.Engine."
+  @topic_entity_feeds "entity_feeds"
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
@@ -20,7 +21,9 @@ defmodule Flashfeed.News.Crawler do
 
     schedule_update()
 
-    {:ok, update(state)}
+    Process.send_after(self(), :crawl, 10)
+
+    {:ok, state}
   end
 
   @doc """
@@ -39,8 +42,13 @@ defmodule Flashfeed.News.Crawler do
   Updates the `entity_feeds` state entry with the latest news feeds, if any.
   """
   def update(state) do
-    entity_feeds = crawl_entities(state)
-    update_feeds(state, entity_feeds)
+    state
+    |> crawl_entities()
+    |> notify_updated_feeds()
+  end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Flashfeed.PubSub, @topic_entity_feeds)
   end
 
   # CLIENT FUNCTIONS
@@ -174,11 +182,19 @@ defmodule Flashfeed.News.Crawler do
         Map.merge(acc, feed)
       end)
 
-    entity_feeds
+    %{state | entity_feeds: entity_feeds}
   end
 
-  defp update_feeds(state, entity_feeds) do
-    %{state | entity_feeds: entity_feeds}
+  defp notify_updated_feeds(state) do
+    Logger.debug(">>> Broadcast.send: #{inspect(state)}")
+
+    Phoenix.PubSub.broadcast(
+      Flashfeed.PubSub,
+      @topic_entity_feeds,
+      %{event: :update, state: state}
+    )
+
+    state
   end
 
   # Scans all modules in search for the ones starting with the given prefix.

@@ -1,4 +1,4 @@
-defmodule DemoWeb.Presence do
+defmodule FlashfeedWeb.Presence do
   @moduledoc """
   Provides presence tracking to channels and processes.
 
@@ -9,9 +9,9 @@ defmodule DemoWeb.Presence do
 
   Presences can be tracked in your channel after joining:
 
-      defmodule Demo.MyChannel do
-        use DemoWeb, :channel
-        alias DemoWeb.Presence
+      defmodule Flashfeed.MyChannel do
+        use FlashfeedWeb, :channel
+        alias FlashfeedWeb.Presence
 
         def join("some:topic", _params, socket) do
           send(self(), :after_join)
@@ -70,5 +70,5 @@ defmodule DemoWeb.Presence do
   """
   use Phoenix.Presence,
     otp_app: :flashfeed,
-    pubsub_server: FlashfeedWeb.PubSub
+    pubsub_server: Flashfeed.PubSub
 end

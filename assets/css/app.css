@@ -37,6 +37,37 @@ body {
   text-align: center;
 }
 
+.ff-player {
+  min-width: 300px;
+  margin: auto;
+}
+
+.ff-player-title-date {
+  font-size: 1.5em;
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
+  margin: 0rem 0 2rem 0;
+}
+
+.ff-player-title {
+  /* background-color: #4d0061;
+  color: #f4f5f6; */
+  /* font-family: "Helvetica", "Arial", sans-serif; */
+  font-size: 1.2em;
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
+  margin: 0rem 0 2rem 0;
+}
+
+.ff-player-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0rem 0 2rem 0;
+}
+
 .ff-search {
   background-color: #4d0061;
   color: #f4f5f6;
@@ -50,6 +81,15 @@ body {
   font-family: "Helvetica", "Arial", sans-serif;
   font-size: 1em;
   text-align: left;
+}
+
+.ff-entity-feeds {
+  list-style-image: url("/images/flashfeed_logo_list.png");
+}
+
+.ff-entity-feed {
+  margin: 0px 0px 16px 0px;
+  cursor: pointer;
 }
 
 pre {
@@ -78,7 +118,7 @@ pre {
   display: none !important;
 }
 
-.datalist-polyfill > li {
+.datalist-polyfill>li {
   padding: 3px;
   font: 13px "Lucida Grande", Sans-Serif;
 }
