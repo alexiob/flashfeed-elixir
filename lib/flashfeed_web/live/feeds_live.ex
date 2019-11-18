@@ -18,9 +18,10 @@ defmodule FlashfeedWeb.FeedsLive do
 
     <form phx-change="suggest" phx-submit="search" phx-throttle="300">
       <input class="ff-search" type="text" name="q" value="<%= @query %>" autocomplete="off" placeholder="search..." <%= if @loading, do: "readonly" %>/>
-      <ul class="ff-entity_feeds">
+      <ul class="fa-ul">
         <%= for entity_feed <- @entity_feeds do %>
-          <li class="ff-entity-feeds ff-entity-feed" phx-click="play" phx-value-source_title="<%= entity_feed.title_text %>" phx-value-source_date="<%= Timex.format!(entity_feed.date, "{0D}/{0M}/{YYYY}") %>" phx-value-source_url="<%= entity_feed.url %>" phx-value-source_media_type="<%= entity_feed.media_type %>">
+          <li class="ff-entity-feed" phx-click="play" phx-value-source_title="<%= entity_feed.title_text %>" phx-value-source_date="<%= Timex.format!(entity_feed.date, "{0D}/{0M}/{YYYY}") %>" phx-value-source_url="<%= entity_feed.url %>" phx-value-source_media_type="<%= entity_feed.media_type %>">
+            <span class="fa-li"><i class="fas fa-podcast"></i></span>
             [<%= Timex.format!(entity_feed.date, "{0D}/{0M}/{YYYY}") %>] <%= entity_feed.title_text %>
           </li>
         <% end %>
