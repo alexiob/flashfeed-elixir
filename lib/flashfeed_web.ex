@@ -23,6 +23,7 @@ defmodule FlashfeedWeb do
 
       import Plug.Conn
       import FlashfeedWeb.Gettext
+      import Phoenix.LiveView.Controller, only: [live_render: 3]
       alias FlashfeedWeb.Router.Helpers, as: Routes
     end
   end
@@ -36,9 +37,14 @@ defmodule FlashfeedWeb do
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
 
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
+
       import FlashfeedWeb.ErrorHelpers
       import FlashfeedWeb.Gettext
       alias FlashfeedWeb.Router.Helpers, as: Routes
+
+      import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
     end
   end
 

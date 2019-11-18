@@ -11,6 +11,7 @@ defmodule Flashfeed.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      # aliases: aliases(),
       deps: deps()
     ]
   end
@@ -56,14 +57,28 @@ defmodule Flashfeed.MixProject do
       {:floki, "~> 0.22.0"},
       {:timex, "~> 3.6.1"},
       {:plug_cowboy, "~> 2.1"},
+      {:plug, "~> 1.8"},
       {:exconstructor, "~> 1.1"},
-      {:spellbook, "~> 2.0.2"},
+      {:spellbook, "~> 2.0.3"},
       {:observer_cli, "~> 1.5"},
-      {:phoenix, "~> 1.4.9"},
+      {:phoenix, "~> 1.4.10"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
+      # {:ecto_sql, "~> 3.0"},
+      # {:postgrex, ">= 0.0.0"},
+      {:phoenix_html, "~> 2.13"},
+      {:phoenix_live_view, "~> 0.3.1"},
       {:phoenix_live_reload, "~> 1.2", only: [:dev]},
-      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev], runtime: false}
+      {:gettext, "~> 0.11"},
+      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]
   end
+
+  # defp aliases do
+  #   [
+  #     "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+  #     "ecto.reset": ["ecto.drop", "ecto.setup"],
+  #     test: ["ecto.create --quiet", "ecto.migrate", "test"]
+  #   ]
+  # end
 end

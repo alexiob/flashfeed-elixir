@@ -30,3 +30,16 @@ flashfeed-*.tar
 
 # Ignore Elixir Language Server
 /.elixir_ls/
+
+# Ignore package tarball (built via "mix hex.build").
+turbo-*.tar
+
+# If NPM crashes, it generates a log, let's ignore it too.
+npm-debug.log
+
+# The directory NPM downloads your dependencies sources to.
+/assets/node_modules/
+
+priv/static/
+
+.DS_Store

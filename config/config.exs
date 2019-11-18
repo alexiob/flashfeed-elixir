@@ -6,22 +6,27 @@ config :flashfeed,
   env: Mix.env(),
   crawler_every_seconds: 3600,
   crawler_news_outlets_config_path: "priv/news_outlets.json",
-  request: Flashfeed.News.Crawler.Request
+  request: Flashfeed.News.Crawler.Request,
+  supported_media_types: ["audio"]
 
 # Configures the endpoint
 config :flashfeed, FlashfeedWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "HdiRX3eQXDSvyt+mzCVtq0mrRha0VI/MW5dyPJleMuMjvzrAskMku68+k9YnfvHq",
   render_errors: [view: FlashfeedWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Flashfeed.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Flashfeed.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: "yxk+Z71c1eFJhk38fbQz3lqGxQRbQNDG"
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :phoenix,
-  json_library: Jason
+config :phoenix, :json_library, Jason
+
+config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
 
 #
 # and access this configuration in your application as:

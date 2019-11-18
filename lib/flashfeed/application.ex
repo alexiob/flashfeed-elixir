@@ -11,8 +11,9 @@ defmodule Flashfeed.Application do
 
     # List all child processes to be supervised
     children = [
+      Flashfeed.News.Crawler,
       FlashfeedWeb.Endpoint,
-      Flashfeed.News.Crawler
+      FlashfeedWeb.Presence
     ]
 
     opts = [strategy: :one_for_one, name: Flashfeed.Supervisor]

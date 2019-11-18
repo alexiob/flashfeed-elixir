@@ -1,0 +1,3 @@
+<section>
+  <%= live_render(@conn, FlashfeedWeb.FeedsLive) %>
+</section>
