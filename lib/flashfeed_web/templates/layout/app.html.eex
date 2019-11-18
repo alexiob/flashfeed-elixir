@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
 
+    <script src="https://kit.fontawesome.com/94dccc5d50.js" crossorigin="anonymous"></script>
+
     <link href="https://vjs.zencdn.net/7.6.5/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
   </head>
@@ -15,7 +17,7 @@
     <header>
       <section class="container">
         <a href="https://flashfeed.iob.toys/" class="ff-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/flashfeed_logo_2.png") %>" alt="Flashfeed Logo"/>
+          <img src="<%= Routes.static_path(@conn, "/images/flashfeed_logo.png") %>" alt="Flashfeed Logo"/>
           <p class='ff-logo-title'>flashfeed</p>
         </a>
       </div>
