@@ -43,7 +43,7 @@ defmodule FlashfeedWeb.FeedsLive do
   end
 
   def handle_event("suggest", %{"q" => query}, socket) when byte_size(query) <= 100 do
-    {:noreply, assign(socket, entity_feeds: filtered_entity_feeds(query))}
+    {:noreply, assign(socket, query: query, entity_feeds: filtered_entity_feeds(query))}
   end
 
   def handle_event("search", %{"q" => query}, socket) when byte_size(query) <= 100 do
