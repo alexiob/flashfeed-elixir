@@ -186,8 +186,6 @@ defmodule Flashfeed.News.Crawler do
   end
 
   defp notify_updated_feeds(state) do
-    Logger.debug(">>> Broadcast.send: #{inspect(state)}")
-
     Phoenix.PubSub.broadcast(
       Flashfeed.PubSub,
       @topic_entity_feeds,
