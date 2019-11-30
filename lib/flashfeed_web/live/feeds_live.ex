@@ -73,10 +73,7 @@ defmodule FlashfeedWeb.FeedsLive do
     {:noreply, assign(socket, loading: false, entity_feeds: filtered_entity_feeds(query))}
   end
 
-  def handle_info(%{event: :update} = broadcast, socket) do
-    Logger.debug(">>> Broadcast: #{inspect(broadcast)}")
-    Logger.debug(">>> socket: #{inspect(socket)}")
-
+  def handle_info(%{event: :update}, socket) do
     {:noreply, assign(socket, entity_feeds: filtered_entity_feeds(socket.assigns.query))}
   end
 
@@ -114,5 +111,6 @@ defmodule FlashfeedWeb.FeedsLive do
       Enum.find(supported_media_types, fn t -> t == entity_feed.media_type end) &&
         Enum.all?(parsed_query, &String.contains?(text, &1))
     end)
+    |> Enum.sort_by(&{&1.date, &1.title_text})
   end
 end
