@@ -12,7 +12,7 @@ RUN apk update && \
     apk add --update git build-base nodejs yarn python inotify-tools && \
     mix local.hex --force && \
     mix local.rebar --force && \
-    mix archive.install hex phx_new 1.4.9
+    mix archive.install hex phx_new 1.4.11
 
 WORKDIR /srv/flashfeed
 

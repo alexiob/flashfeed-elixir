@@ -44,7 +44,6 @@ defmodule Flashfeed.News.Crawler do
   def update(state) do
     state
     |> crawl_entities()
-    |> notify_updated_feeds()
   end
 
   def subscribe do
@@ -93,7 +92,12 @@ defmodule Flashfeed.News.Crawler do
   def handle_info(:crawl, state) do
     schedule_update()
 
-    {:noreply, update(state)}
+    state =
+      state
+      |> update()
+      |> notify_updated_feeds()
+
+    {:noreply, state}
   end
 
   # Public, for testing purposes
