@@ -4,7 +4,7 @@ defmodule Flashfeed.MixProject do
   def project do
     [
       app: :flashfeed,
-      version: "0.2.0",
+      version: "0.2.1",
       elixir: "~> 1.9",
       description: description(),
       package: package(),
@@ -61,14 +61,15 @@ defmodule Flashfeed.MixProject do
       {:exconstructor, "~> 1.1"},
       {:spellbook, "~> 2.0.3"},
       {:observer_cli, "~> 1.5"},
-      {:phoenix, "~> 1.4.10"},
+      {:phoenix, "~> 1.4"},
       {:phoenix_pubsub, "~> 1.1"},
-      {:phoenix_ecto, "~> 4.0"},
+      {:phoenix_ecto, "~> 4.1"},
       # {:ecto_sql, "~> 3.0"},
       # {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.13"},
-      {:phoenix_live_view, "~> 0.3.1"},
+      {:phoenix_live_view, "~> 0.4.1"},
       {:phoenix_live_reload, "~> 1.2", only: [:dev]},
+      {:phoenix_swagger, "~> 0.8.2", only: [:dev]},
       {:gettext, "~> 0.11"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]
