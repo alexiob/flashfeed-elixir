@@ -45,6 +45,8 @@ defmodule FlashfeedWeb.Endpoint do
     key: "_flashfeed_key",
     signing_salt: "cWP+WMpr"
 
+  plug CORSPlug
+
   plug FlashfeedWeb.Router
 
   def init(:supervisor, config) do

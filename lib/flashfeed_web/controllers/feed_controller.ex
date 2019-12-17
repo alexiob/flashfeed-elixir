@@ -1,7 +1,25 @@
 defmodule FlashfeedWeb.FeedController do
   use FlashfeedWeb, :controller
+  use PhoenixSwagger
 
   action_fallback(FlashfeedWeb.FallbackController)
+
+  swagger_path :show do
+    get("/api/v1/{format}/{outlet}/{source}/{country}/{region}/{name}")
+    description("Returns a properly formatted news feed.")
+    produces("application/json")
+
+    parameters do
+      format(:path, :string, "Response format", required: true, default: "amazon_alexa")
+      outlet(:path, :string, "News outled", required: true, default: "rainews")
+      source(:path, :string, "News source", required: true, default: "rainews")
+      country(:path, :string, "Country", required: true, default: "it")
+      region(:path, :string, "Region", required: true, default: "fvg")
+      name(:path, :string, "News feed name", required: true, default: "gr")
+    end
+
+    # response(200, "Success")
+  end
 
   def show(
         conn,

@@ -3,6 +3,7 @@ use Mix.Config
 config :flashfeed, FlashfeedWeb.Endpoint,
   server: true,
   http: [port: 41384],
+  url: [port: 41384],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -13,13 +14,16 @@ config :flashfeed, FlashfeedWeb.Endpoint,
   ],
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg|json)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/flashfeed_web/views/.*(ex)$},
+      ~r{lib/flashfeed_web/controllers/.*(ex)$},
       ~r{lib/flashfeed_web/templates/.*(eex)$},
+      ~r{lib/flashfeed_web/channels/.*(ex)$},
       ~r{lib/flashfeed_web/live/.*(ex)$}
     ]
   ],
+  reloadable_compilers: [:gettext, :phoenix, :elixir, :phoenix_swagger],
   watchers: [
     node: [
       "node_modules/webpack/bin/webpack.js",

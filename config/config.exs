@@ -19,6 +19,18 @@ config :flashfeed, FlashfeedWeb.Endpoint,
     signing_salt: "yxk+Z71c1eFJhk38fbQz3lqGxQRbQNDG"
   ]
 
+config :flashfeed, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      # phoenix routes will be converted to swagger paths
+      router: FlashfeedWeb.Router,
+      # (optional) endpoint config used to set host, port and https schemes.
+      endpoint: FlashfeedWeb.Endpoint
+    ]
+  }
+
+config :phoenix_swagger, json_library: Jason
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -27,6 +39,9 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
+
+config :cors_plug,
+  origin: ["*"]
 
 #
 # and access this configuration in your application as:

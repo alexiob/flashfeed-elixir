@@ -22,9 +22,22 @@ defmodule FlashfeedWeb.Router do
     get "/:format/:outlet/:source/:country/:region/:name", FeedController, :show
   end
 
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :flashfeed, swagger_file: "swagger.json"
+  end
+
   scope "/", FlashfeedWeb do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Flashfeed"
+      }
+    }
   end
 end

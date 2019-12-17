@@ -9,7 +9,7 @@ defmodule Flashfeed.MixProject do
       description: description(),
       package: package(),
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers() ++ [:phoenix_swagger],
       start_permanent: Mix.env() == :prod,
       # aliases: aliases(),
       deps: deps()
@@ -58,6 +58,7 @@ defmodule Flashfeed.MixProject do
       {:timex, "~> 3.6.1"},
       {:plug_cowboy, "~> 2.1"},
       {:plug, "~> 1.8"},
+      {:cors_plug, "~> 2.0"},
       {:exconstructor, "~> 1.1"},
       {:spellbook, "~> 2.0.3"},
       {:observer_cli, "~> 1.5"},
@@ -69,7 +70,7 @@ defmodule Flashfeed.MixProject do
       {:phoenix_html, "~> 2.13"},
       {:phoenix_live_view, "~> 0.4.1"},
       {:phoenix_live_reload, "~> 1.2", only: [:dev]},
-      {:phoenix_swagger, "~> 0.8.2", only: [:dev]},
+      {:phoenix_swagger, "~> 0.8.2"},
       {:gettext, "~> 0.11"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]

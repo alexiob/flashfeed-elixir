@@ -5,6 +5,13 @@ Local radio news feed for Amazon (and friends, eventually), build with Elixir
 ## Local Build
 
 ```sh
+mix deps.get
+mix phx.swagger.generate
+```
+
+## Local Docker Build
+
+```sh
 docker build -t flashfeed-elixir:latest .
 ```
 
