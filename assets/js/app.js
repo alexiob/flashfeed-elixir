@@ -1,71 +1,80 @@
-import css from "../css/app.css";
-import "phoenix_html"
-import {Socket} from "phoenix"
-import {LiveSocket, debug, View} from "phoenix_live_view"
+import "phoenix_html";
+import { Socket } from "phoenix";
+import { LiveSocket, debug, View } from "phoenix_live_view";
 
-let Hooks = {}
+let Hooks = {};
 
-Hooks.PhoneNumber = {
-  mounted(){
-    let pattern = /^(\d{3})(\d{3})(\d{4})$/
-    this.el.addEventListener("input", e => {
-      let match = this.el.value.replace(/\D/g, "").match(pattern)
-      if(match) {
-        this.el.value = `${match[1]}-${match[2]}-${match[3]}`
-      }
-    })
-  }
-}
-
-let scrollAt = () => {
-  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-  let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
-  let clientHeight = document.documentElement.clientHeight
-
-  return scrollTop / (scrollHeight - clientHeight) * 100
-}
-
-Hooks.InfiniteScroll = {
-  page() { return this.el.dataset.page },
-  mounted(){
-    this.pending = this.page()
-    window.addEventListener("scroll", e => {
-      if(this.pending == this.page() && scrollAt() > 90){
-        this.pending = this.page() + 1
-        this.pushEvent("load-more", {})
-      }
-    })
+Hooks.ActiveSource = {
+  mounted() {
+    this.activeSourceType = null;
+    this.activeSourceUrl = null;
+    this.updateActiveSource();
   },
-  updated(){ this.pending = this.page() }
-}
-
-let serializeForm = (form) => {
-  let formData = new FormData(form)
-  let params = new URLSearchParams()
-  for(let [key, val] of formData.entries()){ params.append(key, val) }
-
-  return params.toString()
-}
-
-let Params = {
-  data: {},
-  set(namespace, key, val){
-    if(!this.data[namespace]){ this.data[namespace] = {}}
-    this.data[namespace][key] = val
+  updated() {
+    this.updateActiveSource();
   },
-  get(namespace){ return this.data[namespace] || {} }
-}
+  updateActiveSource() {
+    const sourceType = this.el.dataset.type;
+    const sourceUrl = this.el.dataset.url;
 
-Hooks.SavedForm = {
-  mounted(){
-    this.el.addEventListener("input", e => {
-      Params.set(this.viewName, "stashed_form", serializeForm(this.el))
-    })
+    if (sourceUrl) {
+      this.el.scrollIntoView();
+    }
+
+    if (sourceType === "video" && sourceUrl) {
+      if (this.activeSourceUrl !== sourceUrl) {
+        this.pauseAudio();
+        this.loadVideo(sourceUrl);
+        this.activeSourceType = sourceType;
+        this.activeSourceUrl = sourceUrl;
+      }
+    } else if (sourceType === "audio" && sourceUrl) {
+      if (this.activeSourceUrl !== sourceUrl) {
+        this.pauseVideo();
+        this.playAudio(sourceUrl);
+      }
+    } else {
+      this.pauseAudio();
+      this.pauseVideo();
+    }
+  },
+  loadVideo(url) {
+    const hls = new Hls();
+    const video = document.getElementById("video");
+
+    if (Hls.isSupported()) {
+      hls.attachMedia(video);
+      hls.loadSource(url);
+      hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        video.play();
+      });
+    }
+    // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+    // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+    // This is using the built-in support of the plain video element, without using hls.js.
+    else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = url;
+      video.addEventListener("canplay", function() {
+        video.play();
+      });
+    }
+  },
+  pauseVideo() {
+    const video = document.getElementById("video");
+    video.pause();
+  },
+  playAudio(url) {
+    const audio = document.getElementById("audio");
+    audio.addEventListener("canplay", function() {
+      audio.play();
+    });
+  },
+  pauseAudio() {
+    const audio = document.getElementById("audio");
+    audio.pause();
   }
-}
+};
 
+let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks });
 
-let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks})
-
-liveSocket.connect()
-
+liveSocket.connect();

@@ -18,11 +18,12 @@ defmodule FlashfeedWeb.Router do
     pipe_through :api
 
     get "/version", UtilitiesController, :version
+    get "/proxy/*url", FeedController, :proxy
 
-    get "/:format/:outlet/:source/:country/:region/:name", FeedController, :show
+    get "/feed/:format/:outlet/:source/:country/:region/:name", FeedController, :show
   end
 
-  scope "/api/swagger" do
+  scope "/docs/swagger" do
     forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :flashfeed, swagger_file: "swagger.json"
   end
 

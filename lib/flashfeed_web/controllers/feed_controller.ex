@@ -4,6 +4,8 @@ defmodule FlashfeedWeb.FeedController do
 
   action_fallback(FlashfeedWeb.FallbackController)
 
+  @request Application.get_env(:flashfeed, :request)
+
   swagger_path :show do
     get("/api/v1/{format}/{outlet}/{source}/{country}/{region}/{name}")
     description("Returns a properly formatted news feed.")
@@ -28,6 +30,10 @@ defmodule FlashfeedWeb.FeedController do
         } = params
       ) do
     render_feed(conn, params)
+  end
+
+  def proxy(conn, %{"url" => url} = params) do
+    @request.proxy(conn, url)
   end
 
   defp render_feed(conn, %{

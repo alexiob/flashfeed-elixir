@@ -7,12 +7,20 @@ defmodule FlashfeedWeb.FeedsLive do
 
   def render(assigns) do
     ~L"""
-    <div class="ff-player-title-date"><%= @active_source.date %></div>
-    <div class="ff-player-title"><%= @active_source.title %></div>
-    <div class="ff-player" <%= if @active_source.media_type != "audio", do: "hidden" %>>
-      <div  class="ff-player-control">
-        <audio controls type="<%= @active_source.type %>" src="<%= raw(@active_source.url) %>">
-        </audio>
+    <div id="active-source" phx-hook="ActiveSource" data-type="<%= @active_source.media_type %>" data-url="<%= raw(@active_source.url) %>">
+      <div class="ff-player-title-date"><%= @active_source.date %></div>
+      <div class="ff-player-title"><%= @active_source.title %></div>
+      <div class="ff-player" <%= if @active_source.media_type != "audio", do: "hidden" %>>
+        <div class="ff-player-control">
+          <audio id="audio" autoplay controls type="<%= @active_source.type %>" src="<%= raw(@active_source.url) %>">
+          </audio>
+        </div>
+      </div>
+      <div class="ff-player" <%= if @active_source.media_type != "video", do: "hidden" %>>
+        <div class="ff-player-control">
+          <video id="video" autoplay controls>
+          </video>
+        </div>
       </div>
     </div>
 
@@ -77,14 +85,36 @@ defmodule FlashfeedWeb.FeedsLive do
     {:noreply, assign(socket, entity_feeds: filtered_entity_feeds(socket.assigns.query))}
   end
 
+  defp new_active_source(title, url, media_type = "video", date) do
+    proxy_url =
+      case url do
+        nil -> url
+        "" -> url
+        _ -> "/api/v1/proxy/#{url}"
+      end
+
+    new_active_source_map(title, proxy_url, media_type, date)
+  end
+
   defp new_active_source(title, url, media_type, date) do
+    new_active_source_map(title, url, media_type, date)
+  end
+
+  defp new_active_source_map(title, url, media_type, date) do
     %{
       title: title,
       url: url,
       media_type: media_type,
-      type: "audio/playlist",
+      type: media_type_to_html_type(media_type),
       date: date
     }
+  end
+
+  defp media_type_to_html_type(media_type) do
+    cond do
+      "audio" -> "audio/playlist"
+      "video" -> "video"
+    end
   end
 
   defp filtered_entity_feeds() do
