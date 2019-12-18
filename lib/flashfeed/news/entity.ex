@@ -10,7 +10,8 @@ defmodule Flashfeed.News.Entity do
             base_url: "",
             outlet_name: "",
             outlet_title: "",
-            outlet_url: ""
+            outlet_url: "",
+            icon: ""
 
   use ExConstructor
 end
