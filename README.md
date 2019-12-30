@@ -39,11 +39,11 @@ docker run --name flashfeed-elixir --rm -p 41384:41384 -t flashfeed-elixir:lates
 Local:
 
 ```sh
-curl -X GET https://localhost:41384/api/v1/amazon_alexa/rainews/rainews/it/fvg/gr
+curl -X GET http://localhost:41384/api/v1/feed/amazon_alexa/rainews/rainews/it/fvg/gr
 ```
 
 Deployment:
 
 ```sh
-curl -X GET https://flashfeed.iob.toys/api/v1/amazon_alexa/rainews/rainews/it/fvg/gr
+curl -X GET https://flashfeed.iob.toys/api/v1/feed/amazon_alexa/rainews/rainews/it/fvg/gr
 ```

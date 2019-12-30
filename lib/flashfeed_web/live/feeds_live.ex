@@ -114,6 +114,7 @@ defmodule FlashfeedWeb.FeedsLive do
     case media_type do
       "audio" -> "audio/playlist"
       "video" -> "video"
+      _ -> media_type
     end
   end
 
