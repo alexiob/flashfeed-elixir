@@ -111,7 +111,7 @@ defmodule FlashfeedWeb.FeedsLive do
   end
 
   defp media_type_to_html_type(media_type) do
-    cond do
+    case media_type do
       "audio" -> "audio/playlist"
       "video" -> "video"
     end

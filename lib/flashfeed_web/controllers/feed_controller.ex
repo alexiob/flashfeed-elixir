@@ -32,7 +32,7 @@ defmodule FlashfeedWeb.FeedController do
     render_feed(conn, params)
   end
 
-  def proxy(conn, %{"url" => url} = params) do
+  def proxy(conn, %{"url" => url} = _params) do
     @request.proxy(conn, url)
   end
 

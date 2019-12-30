@@ -11,7 +11,7 @@ defmodule Flashfeed.News.Crawler.Request do
     proxy(conn, "#{protocol}//#{Enum.join(path, "/")}")
   end
 
-  def proxy(conn, url) when is_binary(url) do
+  def proxy(conn, url) do
     full_url = "#{url}?#{conn.query_string}"
 
     process_proxy_url(conn, full_url)
@@ -19,7 +19,7 @@ defmodule Flashfeed.News.Crawler.Request do
 
   defp process_proxy_url(conn, url) do
     case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body, headers: headers} = response} ->
+      {:ok, %HTTPoison.Response{status_code: 200, body: body, headers: headers} = _response} ->
         {"Content-Type", content_type} = List.keyfind(headers, "Content-Type", 0)
 
         conn
