@@ -182,9 +182,15 @@ defmodule Flashfeed.News.Crawler do
     end)
 
     entity_feeds =
-      Enum.reduce(feeds, %{}, fn feed, acc ->
-        Map.merge(acc, feed)
-      end)
+      case length(feeds) do
+        0 ->
+          Map.get(state, :entity_feeds, %{})
+
+        _ ->
+          Enum.reduce(feeds, %{}, fn feed, acc ->
+            Map.merge(acc, feed)
+          end)
+      end
 
     %{state | entity_feeds: entity_feeds}
   end
