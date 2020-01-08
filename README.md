@@ -1,6 +1,17 @@
 # Flashfeed (Elixir version)
 
-Local radio news feed for Amazon (and friends, eventually), build with Elixir
+Local radio and video news feed for Amazon (and friends, eventually), build with Elixir.
+
+Exercises:
+
+- [Elixir](https://elixir-lang.org/) language
+- [Phoenix Framework](https://www.phoenixframework.org/) as API server and CORS proxy
+- [Phenix LiveView](https://github.com/phoenixframework/phoenix_live_view) for UI with live search and media playback
+- [Floki](https://github.com/philss/floki) HTML parser for web scraping
+- Generates Amazon Alexa news feeds
+- Docker with Multi-stage build
+
+![Flashfeed UI](/docs/images/ui_example.png?raw=true "Flashfeed UI")
 
 ## Local Build
 
