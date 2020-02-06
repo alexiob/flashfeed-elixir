@@ -24,6 +24,7 @@ defmodule FlashfeedWeb do
       import Plug.Conn
       import FlashfeedWeb.Gettext
       import Phoenix.LiveView.Controller, only: [live_render: 3]
+
       alias FlashfeedWeb.Router.Helpers, as: Routes
     end
   end
@@ -42,9 +43,9 @@ defmodule FlashfeedWeb do
 
       import FlashfeedWeb.ErrorHelpers
       import FlashfeedWeb.Gettext
-      alias FlashfeedWeb.Router.Helpers, as: Routes
-
       import Phoenix.LiveView.Helpers
+
+      alias FlashfeedWeb.Router.Helpers, as: Routes
     end
   end
 
