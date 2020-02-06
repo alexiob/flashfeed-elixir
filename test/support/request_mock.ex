@@ -7,6 +7,10 @@ defmodule Flashfeed.News.Crawler.Request.Mock do
   @file_path "./test/data/"
   @file_news_source @file_path <> "rainews-it-source.html"
 
+  def proxy(_conn, _url) do
+    # not implemented
+  end
+
   def get(url, decode_json) do
     cond do
       Regex.match?(@url_news_source_prefix, url) -> news_source(url, decode_json)

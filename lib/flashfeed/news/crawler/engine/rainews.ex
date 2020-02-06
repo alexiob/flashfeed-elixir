@@ -21,9 +21,8 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
         # IO.binwrite(file, body)
         # File.close(file)
 
-        data =
-          body
-          |> Floki.find("[data-feed]")
+        {:ok, document} = Floki.parse_document(body)
+        data = Floki.find(document, "[data-feed]")
 
         data_feeds =
           Enum.map(data, fn feed ->

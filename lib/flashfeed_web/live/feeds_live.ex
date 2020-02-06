@@ -38,7 +38,7 @@ defmodule FlashfeedWeb.FeedsLive do
     """
   end
 
-  def mount(_session, socket) do
+  def mount(_parmas, _session, socket) do
     Flashfeed.News.Crawler.subscribe()
 
     {:ok,

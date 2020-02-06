@@ -20,6 +20,13 @@ mix deps.get
 mix phx.swagger.generate
 ```
 
+Note: when LiveView version is updated we need to update the assets as well
+
+```sh
+cd assets
+yarn add phoenix_live_view --force
+```
+
 ## Local Docker Build
 
 ```sh
