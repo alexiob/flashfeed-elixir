@@ -11,6 +11,7 @@ defmodule Flashfeed.Application do
 
     # List all child processes to be supervised
     children = [
+      Flashfeed.Repo,
       Flashfeed.News.Crawler,
       FlashfeedWeb.Endpoint,
       FlashfeedWeb.Presence

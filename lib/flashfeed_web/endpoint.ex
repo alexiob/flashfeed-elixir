@@ -45,6 +45,8 @@ defmodule FlashfeedWeb.Endpoint do
     key: "_flashfeed_key",
     signing_salt: "cWP+WMpr"
 
+  plug Pow.Plug.Session, otp_app: :flashfeed
+
   plug CORSPlug
 
   plug FlashfeedWeb.Router

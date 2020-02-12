@@ -14,6 +14,15 @@
   </head>
   <body>
     <header>
+      <section class="ff-header">
+        <div>
+        <%= if Pow.Plug.current_user(@conn) do %>
+          <%= @current_user.email %> / <%= link "Sign Out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
+        <% else %>
+          <%= link "Register", to: Routes.pow_registration_path(@conn, :new)%> / <%= link "Sign In", to: Routes.pow_session_path(@conn, :new)%>
+        <% end %>
+        </div>
+      </section>
       <section class="container">
         <a href="https://flashfeed.iob.toys/" class="ff-logo">
           <img src="<%= Routes.static_path(@conn, "/images/flashfeed_logo.png") %>" alt="Flashfeed Logo"/>
@@ -28,5 +37,12 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
 
+    <footer>
+      <section class="ff-footer">
+        <div>
+          Copyright 2020 <a href="https://github.com/alexiob">Alessandro Iob</a>
+        </div>
+      </section>
+    </footer>
   </body>
 </html>

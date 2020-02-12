@@ -1,5 +1,9 @@
 use Mix.Config
 
+config :flashfeed, Flashfeed.Repo,
+  username: "alex",
+  password: "postgres"
+
 config :flashfeed, FlashfeedWeb.Endpoint,
   server: true,
   http: [port: 41384],

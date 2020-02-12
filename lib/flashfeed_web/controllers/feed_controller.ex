@@ -7,7 +7,7 @@ defmodule FlashfeedWeb.FeedController do
   @request Application.get_env(:flashfeed, :request)
 
   swagger_path :show do
-    get("/api/v1/{format}/{outlet}/{source}/{country}/{region}/{name}")
+    get("/api/v1/feed/{format}/{outlet}/{source}/{country}/{region}/{name}")
     description("Returns a properly formatted news feed.")
     produces("application/json")
 
