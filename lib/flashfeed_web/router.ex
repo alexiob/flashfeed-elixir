@@ -1,5 +1,6 @@
 defmodule FlashfeedWeb.Router do
   use FlashfeedWeb, :router
+  use Pow.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,6 +13,16 @@ defmodule FlashfeedWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
+  scope "/auth" do
+    pipe_through :browser
+
+    pow_routes()
   end
 
   scope "/api/v1", FlashfeedWeb do
@@ -28,7 +39,7 @@ defmodule FlashfeedWeb.Router do
   end
 
   scope "/", FlashfeedWeb do
-    pipe_through :browser
+    pipe_through [:browser, :protected]
 
     get "/", PageController, :index
   end

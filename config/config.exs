@@ -2,6 +2,15 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+config :flashfeed, ecto_repos: [Flashfeed.Repo]
+
+config :flashfeed, Flashfeed.Repo,
+  database: "flashfeed",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  port: "5432"
+
 config :flashfeed,
   env: Mix.env(),
   crawler_every_seconds: 3600,
@@ -42,6 +51,11 @@ config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
 
 config :cors_plug,
   origin: ["*"]
+
+config :flashfeed, :pow,
+  user: Flashfeed.Users.User,
+  repo: Flashfeed.Repo,
+  web_module: FlashfeedWeb
 
 #
 # and access this configuration in your application as:

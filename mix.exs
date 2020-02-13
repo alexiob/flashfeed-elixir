@@ -53,6 +53,8 @@ defmodule Flashfeed.MixProject do
     [
       {:jason, "~> 1.1.2"},
       {:ecto, "~> 3.3.2"},
+      {:ecto_sql, "~> 3.3.3"},
+      {:postgrex, "~> 0.15.3"},
       {:httpoison, "~> 1.6.2"},
       {:floki, "~> 0.25.0"},
       {:timex, "~> 3.6.1"},
@@ -65,12 +67,11 @@ defmodule Flashfeed.MixProject do
       {:phoenix, "~> 1.4.12"},
       {:phoenix_pubsub, "~> 1.1.2"},
       {:phoenix_ecto, "~> 4.1.0"},
-      # {:ecto_sql, "~> 3.0"},
-      # {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.14.0", override: true},
       {:phoenix_live_view, "~> 0.6.0"},
       {:phoenix_live_reload, "~> 1.2.1", only: [:dev]},
       {:phoenix_swagger, "~> 0.8.2"},
+      {:pow, "~> 1.0.17"},
       {:gettext, "~> 0.17.4"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]
