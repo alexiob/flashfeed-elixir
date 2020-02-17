@@ -8,15 +8,20 @@ defmodule FlashfeedWeb.Router do
     plug Phoenix.LiveView.Flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :put_layout, {FlashfeedWeb.LayoutView, :app}
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    plug FlashfeedWeb.Plug.APIAuth, otp_app: :flashfeed
   end
 
-  pipeline :protected do
+  pipeline :browser_protected do
     plug Pow.Plug.RequireAuthenticated, error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
+  pipeline :api_protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: FlashfeedWeb.APIAuthErrorHandler
   end
 
   scope "/auth" do
@@ -25,13 +30,18 @@ defmodule FlashfeedWeb.Router do
     pow_routes()
   end
 
-  scope "/api/v1", FlashfeedWeb do
+  scope "/api/v1", FlashfeedWeb, as: :api_v1 do
     pipe_through :api
 
     get "/version", UtilitiesController, :version
-    get "/proxy/*url", FeedController, :proxy
 
     get "/feed/:format/:outlet/:source/:country/:region/:name", FeedController, :show
+  end
+
+  scope "/api/v1", FlashfeedWeb, as: :api_v1 do
+    pipe_through [:api, :api_protected]
+
+    get "/proxy/*url", FeedController, :proxy
   end
 
   scope "/docs/swagger" do
@@ -39,7 +49,7 @@ defmodule FlashfeedWeb.Router do
   end
 
   scope "/", FlashfeedWeb do
-    pipe_through [:browser, :protected]
+    pipe_through [:browser, :browser_protected]
 
     get "/", PageController, :index
   end

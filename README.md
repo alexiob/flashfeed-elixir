@@ -7,9 +7,11 @@ Exercises:
 - [Elixir](https://elixir-lang.org/) language
 - [Phoenix Framework](https://www.phoenixframework.org/) as API server and CORS proxy
 - [Phenix LiveView](https://github.com/phoenixframework/phoenix_live_view) for UI with live search and media playback
+- [Pow](https://github.com/danschultzer/pow) for user authentication, integrated with LiveView
 - [Floki](https://github.com/philss/floki) HTML parser for web scraping
-- Generates Amazon Alexa news feeds
+- [News feed generation](https://developer.amazon.com/en-US/docs/alexa/flashbriefing/understand-the-flash-briefing-skill-api.html) for Amazon Alexa
 - Docker with Multi-stage build
+- [Phoenix Swagger](https://github.com/xerions/phoenix_swagger) for API documentation
 
 ![Flashfeed UI](/docs/images/ui_example.png?raw=true "Flashfeed UI")
 
@@ -24,7 +26,7 @@ Note: when LiveView version is updated we need to update the assets as well
 
 ```sh
 cd assets
-yarn add phoenix_live_view --force
+npm install phoenix_live_view --force
 ```
 
 ## Local Docker Build
