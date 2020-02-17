@@ -1,53 +1,28 @@
 defmodule FlashfeedWeb.FeedsLive do
   use Phoenix.LiveView
+  alias FlashfeedWeb.Router.Helpers, as: Routes
 
   require Logger
 
-  import Phoenix.HTML
-
   def render(assigns) do
-    ~L"""
-    <div id="active-source" phx-hook="ActiveSource" data-type="<%= @active_source.media_type %>" data-url="<%= raw(@active_source.url) %>">
-      <div class="ff-player-title-date"><%= @active_source.date %></div>
-      <div class="ff-player-title"><%= @active_source.title %></div>
-      <div class="ff-player" <%= if @active_source.media_type != "audio", do: "hidden" %>>
-        <div class="ff-player-control">
-          <audio id="audio" controls type="<%= @active_source.type %>" src="<%= raw(@active_source.url) %>">
-          </audio>
-        </div>
-      </div>
-      <div class="ff-player" <%= if @active_source.media_type != "video", do: "hidden" %>>
-        <div class="ff-player-control">
-          <video id="video" controls>
-          </video>
-        </div>
-      </div>
-    </div>
-
-    <form phx-change="suggest" phx-submit="search" phx-throttle="300">
-      <input class="ff-search" type="text" name="q" value="<%= @query %>" autocomplete="off" placeholder="search..." autofocus <%= if @loading, do: "readonly" %>/>
-      <ul class="fa-ul">
-        <%= for entity_feed <- @entity_feeds do %>
-          <li class="ff-entity-feed" phx-click="play" phx-value-source_title="<%= entity_feed.title_text %>" phx-value-source_date="<%= Timex.format!(entity_feed.date, "{0D}/{0M}/{YYYY}") %>" phx-value-source_url="<%= entity_feed.url %>" phx-value-source_media_type="<%= entity_feed.media_type %>">
-            <span class="fa-li"><i class="fas <%= entity_feed.icon %>"></i></span>
-            [<%= Timex.format!(entity_feed.date, "{0D}/{0M}/{YYYY}") %>] <%= entity_feed.title_text %>
-          </li>
-        <% end %>
-      </ul>
-    </form>
-    """
+    Phoenix.View.render(FlashfeedWeb.FeedsLiveView, "feeds_live.html", assigns)
   end
 
-  def mount(_parmas, _session, socket) do
+  def mount(params, %{"current_user" => current_user} = session, socket) do
     Flashfeed.News.Crawler.subscribe()
+    FlashfeedWeb.UserAuthenticationCallbacks.subscribe(current_user.id)
 
-    {:ok,
-     assign(socket,
-       query: nil,
-       loading: false,
-       entity_feeds: filtered_entity_feeds(),
-       active_source: new_active_source("just click on an entry", nil, nil, "Select source...")
-     )}
+    {
+      :ok,
+      assign(
+        socket,
+        current_user: current_user,
+        query: nil,
+        loading: false,
+        entity_feeds: filtered_entity_feeds(),
+        active_source: new_active_source("just click on an entry", nil, nil, "Select source...")
+      )
+    }
   end
 
   def handle_event("suggest", %{"q" => query}, socket) when byte_size(query) <= 100 do
@@ -83,6 +58,19 @@ defmodule FlashfeedWeb.FeedsLive do
 
   def handle_info(%{event: :update}, socket) do
     {:noreply, assign(socket, entity_feeds: filtered_entity_feeds(socket.assigns.query))}
+  end
+
+  # NOTE: this is not going to happen as we are doing login from a NOT-LiveView and so, no mount
+  def handle_info(%{event: :login, current_user: current_user}, socket) do
+    {:noreply, assign(socket, current_user: current_user)}
+  end
+
+  def handle_info(%{event: :logout, current_user: current_user}, socket) do
+    socket = socket
+    |> assign(current_user: nil)
+    |> redirect(to: Routes.pow_session_path(socket, :new))
+
+    {:noreply, socket}
   end
 
   defp new_active_source(title, url, media_type = "video", date) do

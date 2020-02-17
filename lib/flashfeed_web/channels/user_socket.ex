@@ -1,5 +1,7 @@
 defmodule FlashfeedWeb.UserSocket do
   use Phoenix.Socket
+  # use Phoenix.LiveView.Socket
+  require Logger
 
   ## Channels
   # channel "room:*", FlashfeedWeb.RoomChannel
@@ -15,8 +17,16 @@ defmodule FlashfeedWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
+  def connect(%{"token" => token} = params, socket, connect_info) do
+    Logger.debug(">>> UserSocket PARAMS: #{inspect(params)}")
+    Logger.debug(">>> UserSocket SOCKET: #{inspect(socket, pretty: true, limit: :infinity)}")
+    # Logger.debug(">>> UserSocket connect_info: #{inspect(connect_info)}")
     {:ok, socket}
+  end
+
+  def connect(_params, _socket, _connect_info) do
+    Logger.debug(">>> UserSocket[NO TOKEN]")
+    :error
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

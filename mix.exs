@@ -52,8 +52,8 @@ defmodule Flashfeed.MixProject do
   defp deps do
     [
       {:jason, "~> 1.1.2"},
-      {:ecto, "~> 3.3.2"},
-      {:ecto_sql, "~> 3.3.3"},
+      {:ecto, "~> 3.3.3"},
+      {:ecto_sql, "~> 3.3.4"},
       {:postgrex, "~> 0.15.3"},
       {:httpoison, "~> 1.6.2"},
       {:floki, "~> 0.25.0"},
@@ -64,24 +64,24 @@ defmodule Flashfeed.MixProject do
       {:exconstructor, "~> 1.1.0"},
       {:spellbook, "~> 2.0.3"},
       {:observer_cli, "~> 1.5.3"},
-      {:phoenix, "~> 1.4.12"},
+      {:phoenix, "~> 1.4.13"},
       {:phoenix_pubsub, "~> 1.1.2"},
       {:phoenix_ecto, "~> 4.1.0"},
       {:phoenix_html, "~> 2.14.0", override: true},
-      {:phoenix_live_view, "~> 0.6.0"},
+      {:phoenix_live_view, "~> 0.7.1"},
       {:phoenix_live_reload, "~> 1.2.1", only: [:dev]},
       {:phoenix_swagger, "~> 0.8.2"},
-      {:pow, "~> 1.0.17"},
+      {:pow, "~> 1.0.18"},
       {:gettext, "~> 0.17.4"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]
   end
 
-  # defp aliases do
-  #   [
-  #     "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-  #     "ecto.reset": ["ecto.drop", "ecto.setup"],
-  #     test: ["ecto.create --quiet", "ecto.migrate", "test"]
-  #   ]
-  # end
+  defp aliases do
+    [
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+    ]
+  end
 end

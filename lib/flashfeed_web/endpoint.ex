@@ -1,7 +1,21 @@
 defmodule FlashfeedWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :flashfeed
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: true
+  @session_options [
+    store: :cookie,
+    key: "_flashfeed_key",
+    signing_salt: "cWP+WMpr"
+  ]
+
+  # @session_options [
+  #   store: :ets,
+  #   key: "_flashfeed_key",
+  #   table: :session
+  # ]
+
+  socket "/live", Phoenix.LiveView.Socket, websocket: [
+    connect_info: [session: @session_options]
+  ]
 
   socket "/socket", FlashfeedWeb.UserSocket,
     websocket: true,
@@ -40,10 +54,7 @@ defmodule FlashfeedWeb.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
-  plug Plug.Session,
-    store: :cookie,
-    key: "_flashfeed_key",
-    signing_salt: "cWP+WMpr"
+  plug Plug.Session, @session_options
 
   plug Pow.Plug.Session, otp_app: :flashfeed
 

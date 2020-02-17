@@ -9,6 +9,8 @@ defmodule Flashfeed.Application do
   def start(_type, _args) do
     Logger.debug("Flashfeed.Application.start: starting...")
 
+    # :ets.new(:session, [:named_table, :public, read_concurrency: true])
+
     # List all child processes to be supervised
     children = [
       Flashfeed.Repo,

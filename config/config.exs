@@ -53,9 +53,11 @@ config :cors_plug,
   origin: ["*"]
 
 config :flashfeed, :pow,
-  user: Flashfeed.Users.User,
+  user: Flashfeed.Auth.User,
   repo: Flashfeed.Repo,
-  web_module: FlashfeedWeb
+  web_module: FlashfeedWeb,
+  controller_callbacks: FlashfeedWeb.UserAuthenticationCallbacks
+  # extensions: [FlashfeedWeb.UserAuthenticationCallbacks]
 
 #
 # and access this configuration in your application as:
