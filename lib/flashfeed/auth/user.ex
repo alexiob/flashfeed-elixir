@@ -2,7 +2,7 @@ defmodule Flashfeed.Auth.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
 
-  import Ecto.Changeset
+  # import Ecto.Changeset
 
   schema "users" do
     pow_user_fields()

@@ -57,7 +57,6 @@ config :flashfeed, :pow,
   repo: Flashfeed.Repo,
   web_module: FlashfeedWeb,
   controller_callbacks: FlashfeedWeb.UserAuthenticationCallbacks
-  # extensions: [FlashfeedWeb.UserAuthenticationCallbacks]
 
 #
 # and access this configuration in your application as:

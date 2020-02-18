@@ -8,7 +8,7 @@ defmodule FlashfeedWeb.FeedsLive do
     Phoenix.View.render(FlashfeedWeb.FeedsLiveView, "feeds_live.html", assigns)
   end
 
-  def mount(params, %{"current_user" => current_user} = session, socket) do
+  def mount(_params, %{"current_user" => current_user} = _session, socket) do
     Flashfeed.News.Crawler.subscribe()
     FlashfeedWeb.UserAuthenticationCallbacks.subscribe(current_user.id)
 
@@ -65,7 +65,7 @@ defmodule FlashfeedWeb.FeedsLive do
     {:noreply, assign(socket, current_user: current_user)}
   end
 
-  def handle_info(%{event: :logout, current_user: current_user}, socket) do
+  def handle_info(%{event: :logout, current_user: _current_user}, socket) do
     socket = socket
     |> assign(current_user: nil)
     |> redirect(to: Routes.pow_session_path(socket, :new))

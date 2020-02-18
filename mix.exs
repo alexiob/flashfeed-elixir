@@ -11,7 +11,7 @@ defmodule Flashfeed.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers() ++ [:phoenix_swagger],
       start_permanent: Mix.env() == :prod,
-      # aliases: aliases(),
+      aliases: aliases(),
       deps: deps()
     ]
   end

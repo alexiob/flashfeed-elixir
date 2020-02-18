@@ -1,6 +1,5 @@
 defmodule FlashfeedWeb.UserSocket do
   use Phoenix.Socket
-  # use Phoenix.LiveView.Socket
   require Logger
 
   ## Channels
@@ -17,15 +16,15 @@ defmodule FlashfeedWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(%{"token" => token} = params, socket, connect_info) do
-    Logger.debug(">>> UserSocket PARAMS: #{inspect(params)}")
-    Logger.debug(">>> UserSocket SOCKET: #{inspect(socket, pretty: true, limit: :infinity)}")
+  def connect(%{"token" => _token} = _params, socket, _connect_info) do
+    # Logger.debug(">>> UserSocket PARAMS: #{inspect(params)}")
+    # Logger.debug(">>> UserSocket SOCKET: #{inspect(socket, pretty: true, limit: :infinity)}")
     # Logger.debug(">>> UserSocket connect_info: #{inspect(connect_info)}")
     {:ok, socket}
   end
 
   def connect(_params, _socket, _connect_info) do
-    Logger.debug(">>> UserSocket[NO TOKEN]")
+    # Logger.debug(">>> UserSocket[NO TOKEN]")
     :error
   end
 
