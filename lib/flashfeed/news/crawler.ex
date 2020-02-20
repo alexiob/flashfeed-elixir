@@ -21,9 +21,7 @@ defmodule Flashfeed.News.Crawler do
 
     schedule_update()
 
-    Process.send_after(self(), :crawl, 10)
-
-    {:ok, state}
+    {:ok, state, {:continue, :crawl}}
   end
 
   @doc """
@@ -70,6 +68,11 @@ defmodule Flashfeed.News.Crawler do
   # MESSAGE HANDLERS
 
   @impl true
+  def handle_continue(:crawl, state) do
+    {:noreply, crawl(state)}
+  end
+
+  @impl true
   def handle_call({:entity_feeds}, _from, state) do
     {:reply, state.entity_feeds, state}
   end
@@ -90,14 +93,7 @@ defmodule Flashfeed.News.Crawler do
 
   @impl true
   def handle_info(:crawl, state) do
-    schedule_update()
-
-    state =
-      state
-      |> update()
-      |> notify_updated_feeds()
-
-    {:noreply, state}
+    {:noreply, crawl(state)}
   end
 
   # Public, for testing purposes
@@ -131,6 +127,14 @@ defmodule Flashfeed.News.Crawler do
   end
 
   # PRIVATE FUNCTIONS
+
+  defp crawl(state) do
+    schedule_update()
+
+    state
+    |> update()
+    |> notify_updated_feeds()
+  end
 
   defp schedule_update() do
     Process.send_after(
