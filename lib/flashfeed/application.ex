@@ -12,6 +12,13 @@ defmodule Flashfeed.Application do
     # :ets.new(:session, [:named_table, :public, read_concurrency: true])
 
     # List all child processes to be supervised
+    children = children()
+
+    opts = [strategy: :one_for_one, name: Flashfeed.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
+
+  defp children() do
     children = [
       Flashfeed.Repo,
       Flashfeed.News.Crawler,
@@ -19,8 +26,15 @@ defmodule Flashfeed.Application do
       FlashfeedWeb.Presence
     ]
 
-    opts = [strategy: :one_for_one, name: Flashfeed.Supervisor]
-    Supervisor.start_link(children, opts)
+    extra_children = case Application.get_env(:flashfeed, :pow)[:cache_store_backend] do
+      Pow.Store.Backend.MnesiaCache -> [
+        {Pow.Store.Backend.MnesiaCache, [extra_db_nodes: [node()]]},
+        Pow.Store.Backend.MnesiaCache.Unsplit
+      ]
+      _ -> []
+    end
+
+    children ++ extra_children
   end
 
   @impl true

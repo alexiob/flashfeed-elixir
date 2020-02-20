@@ -21,11 +21,13 @@ defmodule Flashfeed.MixProject do
     if Mix.env() != :test do
       [
         mod: {Flashfeed.Application, []},
-        extra_applications: [:logger, :timex, :runtime_tools]
+        extra_applications: [:logger, :timex, :runtime_tools],
+        included_applications: [:mnesia]
       ]
     else
       [
-        extra_applications: [:logger]
+        extra_applications: [:logger],
+        included_applications: [:mnesia]
       ]
     end
   end

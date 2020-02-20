@@ -52,10 +52,19 @@ config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
 config :cors_plug,
   origin: ["*"]
 
+config :mnesia, dir: './tmp/mnesia'
+
 config :flashfeed, :pow,
   user: Flashfeed.Auth.User,
   repo: Flashfeed.Repo,
   web_module: FlashfeedWeb,
+  credentials_cache_store: {
+    Pow.Store.CredentialsCache,
+    ttl: :timer.minutes(10),
+    namespace: "auth:sessions:pow"
+  },
+  session_ttl_renewal: :timer.minutes(10),
+  cache_store_backend: Pow.Store.Backend.MnesiaCache,
   controller_callbacks: FlashfeedWeb.UserAuthenticationCallbacks
 
 #

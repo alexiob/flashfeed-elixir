@@ -11,3 +11,4 @@ deps/
 Dockerfile
 README.md
 priv/static/
+tmp/
