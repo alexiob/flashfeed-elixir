@@ -1,4 +1,5 @@
 defmodule FlashfeedWeb.Plug.AssignUser do
+  @moduledoc false
   import Plug.Conn
 
   require Logger

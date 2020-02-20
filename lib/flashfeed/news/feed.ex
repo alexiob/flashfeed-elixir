@@ -1,4 +1,5 @@
 defmodule Flashfeed.News.Feed do
+  @moduledoc false
   defstruct uuid: nil,
             name: "",
             title: "",

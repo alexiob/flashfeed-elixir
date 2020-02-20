@@ -1,4 +1,5 @@
 defmodule Flashfeed.Auth.User do
+  @moduledoc false
   use Ecto.Schema
   use Pow.Ecto.Schema
 

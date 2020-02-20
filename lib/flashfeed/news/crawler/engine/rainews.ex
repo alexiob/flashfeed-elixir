@@ -26,16 +26,7 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
 
         data_feeds =
           Enum.map(data, fn feed ->
-            Task.async(fn ->
-              name =
-                Floki.text(feed)
-                |> String.downcase()
-                |> String.replace(" ", "_")
-
-              content_url = "#{entity.base_url}#{List.first(Floki.attribute(feed, "data-feed"))}"
-
-              fetch_entity_feed(name, content_url, entity)
-            end)
+            fetch_entity_feed(entity, feed)
           end)
           |> Enum.map(fn task -> Task.await(task, @fetch_entity_task_timeout) end)
 
@@ -73,7 +64,20 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
     end
   end
 
-  defp fetch_entity_feed(name, url, %Flashfeed.News.Entity{} = entity) do
+  defp fetch_entity_feed(%Flashfeed.News.Entity{} = entity, feed) do
+    Task.async(fn ->
+      name =
+        Floki.text(feed)
+        |> String.downcase()
+        |> String.replace(" ", "_")
+
+      content_url = "#{entity.base_url}#{List.first(Floki.attribute(feed, "data-feed"))}"
+
+      fetch_entity_feed(entity, name, content_url)
+    end)
+  end
+
+  defp fetch_entity_feed(%Flashfeed.News.Entity{} = entity, name, url) do
     entity_feed =
       case @request.get(url, true) do
         {:ok, content} ->

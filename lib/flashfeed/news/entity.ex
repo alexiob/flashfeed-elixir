@@ -1,4 +1,5 @@
 defmodule Flashfeed.News.Entity do
+  @moduledoc false
   defstruct uuid: nil,
             name: "",
             enabled: false,

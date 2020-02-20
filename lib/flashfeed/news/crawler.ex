@@ -53,7 +53,7 @@ defmodule Flashfeed.News.Crawler do
   @doc """
   List available feeds
   """
-  def entity_feeds() do
+  def entity_feeds do
     GenServer.call(__MODULE__, {:entity_feeds})
   end
 
@@ -136,7 +136,7 @@ defmodule Flashfeed.News.Crawler do
     |> notify_updated_feeds()
   end
 
-  defp schedule_update() do
+  defp schedule_update do
     Process.send_after(
       self(),
       :crawl,
@@ -144,37 +144,41 @@ defmodule Flashfeed.News.Crawler do
     )
   end
 
+  defp entity_crawler(entity, state) do
+    Task.async(fn ->
+      Logger.debug(
+        "Flashfeed.News.Crawler.crawl: entity '#{entity.name}-#{entity.country}-#{
+          entity.region
+        }'"
+      )
+
+      crawler = Map.get(state.crawler_engines, entity.crawler, nil)
+
+      if crawler do
+        case crawler.fetch(entity) do
+          {:ok, new_entity_feeds} ->
+            entity_feeds = crawler.update(state.entity_feeds, new_entity_feeds)
+            {:ok, entity_feeds}
+
+          {:error, reason} ->
+            {:error,
+              "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' crawler engine '#{
+                entity.crawler
+              }' errored as #{inspect(reason)}"}
+        end
+      else
+        {:error,
+          "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' has an unknown crawler engine named '#{
+            entity.crawler
+          }'"}
+      end
+    end)
+  end
+
   defp crawl_entities(state) do
     entity_feeds =
       Enum.map(state.entities, fn entity ->
-        Task.async(fn ->
-          Logger.debug(
-            "Flashfeed.News.Crawler.crawl: entity '#{entity.name}-#{entity.country}-#{
-              entity.region
-            }'"
-          )
-
-          crawler = Map.get(state.crawler_engines, entity.crawler, nil)
-
-          if !crawler do
-            {:error,
-             "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' has an unknown crawler engine named '#{
-               entity.crawler
-             }'"}
-          else
-            case crawler.fetch(entity) do
-              {:ok, new_entity_feeds} ->
-                entity_feeds = crawler.update(state.entity_feeds, new_entity_feeds)
-                {:ok, entity_feeds}
-
-              {:error, reason} ->
-                {:error,
-                 "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' crawler engine '#{
-                   entity.crawler
-                 }' errored as #{inspect(reason)}"}
-            end
-          end
-        end)
+        entity_crawler(entity, state)
       end)
       |> Enum.map(fn task -> Task.await(task, @fetch_feed_task_timeout) end)
 
@@ -211,8 +215,8 @@ defmodule Flashfeed.News.Crawler do
 
   # Scans all modules in search for the ones starting with the given prefix.
   # The engine name is the lowercase version of the last module name part.
-  defp retrieve_crawler_engines() do
-    with {:ok, modules_list} = :application.get_key(:flashfeed, :modules) do
+  defp retrieve_crawler_engines do
+    with {:ok, modules_list} <- :application.get_key(:flashfeed, :modules) do
       modules_list
       |> Enum.filter(fn module ->
         module |> to_string |> String.starts_with?(@crawler_engine_module_signature)

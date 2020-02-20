@@ -19,7 +19,7 @@ defmodule Flashfeed.News.Crawler.Utilities do
     "#{outlet}-#{source}-#{country}-#{region}-#{name}"
   end
 
-  def entity_uuid() do
+  def entity_uuid do
     "urn:uuid:#{Ecto.UUID.generate()}"
   end
 

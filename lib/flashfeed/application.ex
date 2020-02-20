@@ -18,7 +18,7 @@ defmodule Flashfeed.Application do
     Supervisor.start_link(children, opts)
   end
 
-  defp children() do
+  defp children do
     children = [
       Flashfeed.Repo,
       Flashfeed.News.Crawler,

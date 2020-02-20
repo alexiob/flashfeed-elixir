@@ -13,12 +13,11 @@ defmodule FlashfeedWeb.Plug.APIAuth do
   def fetch(conn, config) do
     token = fetch_auth_token(conn)
 
-    Logger.debug(">>> APIAuth Fetch: #{token}")
     config
     |> store_config()
     |> CredentialsCache.get(token)
     |> case do
-      :not_found        -> {conn, nil}
+      :not_found -> {conn, nil}
       {user, _metadata} -> {conn, user}
     end
   end
@@ -27,10 +26,9 @@ defmodule FlashfeedWeb.Plug.APIAuth do
   @spec create(Conn.t(), map(), Config.t()) :: {Conn.t(), map()}
   def create(conn, user, config) do
     store_config = store_config(config)
-    token        = Pow.UUID.generate()
-    renew_token  = Pow.UUID.generate()
-    conn         =
-      conn
+    token = Pow.UUID.generate()
+    renew_token = Pow.UUID.generate()
+    conn = conn
       |> Conn.put_private(:api_auth_token, token)
       |> Conn.put_private(:api_renew_token, renew_token)
 
@@ -59,21 +57,21 @@ defmodule FlashfeedWeb.Plug.APIAuth do
   """
   @spec renew(Conn.t(), Config.t()) :: {Conn.t(), map() | nil}
   def renew(conn, config) do
-    renew_token  = fetch_auth_token(conn)
+    renew_token = fetch_auth_token(conn)
     store_config = store_config(config)
-    res          = PersistentSessionCache.get(store_config, renew_token)
+    res = PersistentSessionCache.get(store_config, renew_token)
 
     PersistentSessionCache.delete(store_config, renew_token)
 
     case res do
       :not_found -> {conn, nil}
-      res        -> load_and_create_session(conn, res, config)
+      res -> load_and_create_session(conn, res, config)
     end
   end
 
   defp load_and_create_session(conn, {clauses, _metadata}, config) do
     case Pow.Operations.get_by(clauses, config) do
-      nil  -> {conn, nil}
+      nil -> {conn, nil}
       user -> create(conn, user, config)
     end
   end

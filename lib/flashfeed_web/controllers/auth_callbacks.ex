@@ -1,4 +1,5 @@
 defmodule FlashfeedWeb.UserAuthenticationCallbacks do
+  @moduledoc false
   alias Pow.Extension.Phoenix.ControllerCallbacks
 
   require Logger
@@ -13,7 +14,7 @@ defmodule FlashfeedWeb.UserAuthenticationCallbacks do
     Phoenix.PubSub.broadcast(
       Flashfeed.PubSub,
       user_topic(current_user.id),
-      %{ event: event, current_user: current_user }
+      %{event: event, current_user: current_user}
     )
   end
 

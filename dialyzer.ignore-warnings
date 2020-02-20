@@ -1,0 +1,2 @@
+lib/flashfeed_web/plugs/api_auth.ex:3: Function do_create/3 has no local return
+lib/flashfeed_web/plugs/api_auth.ex:27: Function create/3 has no local return

@@ -7,6 +7,7 @@ defmodule Flashfeed.MixProject do
       version: "0.3.0",
       elixir: "~> 1.9",
       description: description(),
+      dialyzer: dialyzer(),
       package: package(),
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers() ++ [:phoenix_swagger],
@@ -75,7 +76,13 @@ defmodule Flashfeed.MixProject do
       {:phoenix_swagger, "~> 0.8.2"},
       {:pow, "~> 1.0.18"},
       {:gettext, "~> 0.17.4"},
-      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
+      {:credo, "~> 1.2.2", only: [:dev, :test], runtime: false},
+      # {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      # {:excoveralls, "~> 0.9", only: [:dev]},
+      # {:eye_drops, "~> 1.3", only: [:dev], runtime: false},
+      # {:inch_ex, "~> 2.0", only: [:dev], runtime: false},
+      # {:stream_data, "~> 0.4", only: [:dev]}
     ]
   end
 
@@ -84,6 +91,15 @@ defmodule Flashfeed.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
+    ]
+  end
+
+  defp dialyzer do
+    [
+      ignore_warnings: "dialyzer.ignore-warnings",
+      plt_add_apps: [:mix],
+      plt_core_path: "_build",
+      remove_defaults: [:unknown]
     ]
   end
 end

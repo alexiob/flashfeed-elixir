@@ -1,4 +1,5 @@
 defmodule FlashfeedWeb.FeedsLive do
+  @moduledoc false
   use Phoenix.LiveView
   alias FlashfeedWeb.Router.Helpers, as: Routes
 
@@ -30,7 +31,6 @@ defmodule FlashfeedWeb.FeedsLive do
   end
 
   def handle_event("search", %{"q" => query}, socket) when byte_size(query) <= 100 do
-    # FIXME: review
     send(self(), {:search, query})
 
     {:noreply, assign(socket, query: query, loading: true, entity_feeds: [])}
@@ -73,7 +73,7 @@ defmodule FlashfeedWeb.FeedsLive do
     {:noreply, socket}
   end
 
-  defp new_active_source(title, url, media_type = "video", date) do
+  defp new_active_source(title, url, "video" = media_type , date) do
     proxy_url =
       case url do
         nil -> url
@@ -106,7 +106,7 @@ defmodule FlashfeedWeb.FeedsLive do
     end
   end
 
-  defp filtered_entity_feeds() do
+  defp filtered_entity_feeds do
     filtered_entity_feeds("")
   end
 

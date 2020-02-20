@@ -1,4 +1,5 @@
 defmodule FlashfeedWeb.APIAuthErrorHandler do
+  @moduledoc false
   use FlashfeedWeb, :controller
 
   require Logger

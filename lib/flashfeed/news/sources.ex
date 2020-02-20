@@ -4,7 +4,7 @@ defmodule Flashfeed.News.Sources do
   require Logger
 
   @spec load :: [Flashfeed.News.Entity.t()] | {:error, atom}
-  def load() do
+  def load do
     filename =
       Path.join([
         Application.app_dir(:flashfeed),
@@ -25,16 +25,16 @@ defmodule Flashfeed.News.Sources do
     )
   end
 
-  defp load_config(filename, :json) do
-    with {:ok, json_data} <- File.read(filename),
-         {:ok, data} <- Jason.decode(json_data) do
-      data
-    else
-      {:error, reason} ->
-        Logger.error("Flashfeed.News.Source.load: error loading '#{filename}': #{reason}")
-        {:error, reason}
-    end
-  end
+  # defp load_config(filename, :json) do
+  #   with {:ok, json_data} <- File.read(filename),
+  #        {:ok, data} <- Jason.decode(json_data) do
+  #     data
+  #   else
+  #     {:error, reason} ->
+  #       Logger.error("Flashfeed.News.Source.load: error loading '#{filename}': #{reason}")
+  #       {:error, reason}
+  #   end
+  # end
 
   defp json_data_to_entities_list(data) do
     for news_outlet <- data,
