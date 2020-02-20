@@ -60,8 +60,7 @@ config :flashfeed, :pow,
   web_module: FlashfeedWeb,
   credentials_cache_store: {
     Pow.Store.CredentialsCache,
-    ttl: :timer.minutes(10),
-    namespace: "auth:sessions:pow"
+    ttl: :timer.minutes(10), namespace: "auth:sessions:pow"
   },
   session_ttl_renewal: :timer.minutes(10),
   cache_store_backend: Pow.Store.Backend.MnesiaCache,

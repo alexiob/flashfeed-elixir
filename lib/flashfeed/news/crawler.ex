@@ -147,9 +147,7 @@ defmodule Flashfeed.News.Crawler do
   defp entity_crawler(entity, state) do
     Task.async(fn ->
       Logger.debug(
-        "Flashfeed.News.Crawler.crawl: entity '#{entity.name}-#{entity.country}-#{
-          entity.region
-        }'"
+        "Flashfeed.News.Crawler.crawl: entity '#{entity.name}-#{entity.country}-#{entity.region}'"
       )
 
       crawler = Map.get(state.crawler_engines, entity.crawler, nil)
@@ -162,15 +160,15 @@ defmodule Flashfeed.News.Crawler do
 
           {:error, reason} ->
             {:error,
-              "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' crawler engine '#{
-                entity.crawler
-              }' errored as #{inspect(reason)}"}
+             "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' crawler engine '#{
+               entity.crawler
+             }' errored as #{inspect(reason)}"}
         end
       else
         {:error,
-          "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' has an unknown crawler engine named '#{
-            entity.crawler
-          }'"}
+         "Flashfeed.News.Crawler.crawl: entity '#{entity.name}' has an unknown crawler engine named '#{
+           entity.crawler
+         }'"}
       end
     end)
   end

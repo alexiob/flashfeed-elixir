@@ -23,7 +23,8 @@ defmodule FlashfeedWeb.UserAuthenticationCallbacks do
   end
 
   # @impl true
-  def before_respond(Pow.Phoenix.SessionController, action, {:ok, conn}, config) when action in [:new, :create] do
+  def before_respond(Pow.Phoenix.SessionController, action, {:ok, conn}, config)
+      when action in [:new, :create] do
     current_user = Pow.Plug.current_user(conn)
 
     notify(:login, current_user)
@@ -40,7 +41,7 @@ defmodule FlashfeedWeb.UserAuthenticationCallbacks do
     ControllerCallbacks.before_process(Pow.Phoenix.SessionController, :delete, conn, config)
   end
 
-  defdelegate before_respond(controller, action, results, config), to:  ControllerCallbacks
+  defdelegate before_respond(controller, action, results, config), to: ControllerCallbacks
 
   defdelegate before_process(controller, action, results, config), to: ControllerCallbacks
 end

@@ -26,13 +26,17 @@ defmodule Flashfeed.Application do
       FlashfeedWeb.Presence
     ]
 
-    extra_children = case Application.get_env(:flashfeed, :pow)[:cache_store_backend] do
-      Pow.Store.Backend.MnesiaCache -> [
-        {Pow.Store.Backend.MnesiaCache, [extra_db_nodes: [node()]]},
-        Pow.Store.Backend.MnesiaCache.Unsplit
-      ]
-      _ -> []
-    end
+    extra_children =
+      case Application.get_env(:flashfeed, :pow)[:cache_store_backend] do
+        Pow.Store.Backend.MnesiaCache ->
+          [
+            {Pow.Store.Backend.MnesiaCache, [extra_db_nodes: [node()]]},
+            Pow.Store.Backend.MnesiaCache.Unsplit
+          ]
+
+        _ ->
+          []
+      end
 
     children ++ extra_children
   end

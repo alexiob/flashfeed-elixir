@@ -14,6 +14,7 @@ defmodule FlashfeedWeb.Plug.AssignUser do
       %User{} = user ->
         conn
         |> assign(:current_user, Repo.preload(user, params[:preload] || []))
+
       _ ->
         conn
         |> assign(:current_user, nil)

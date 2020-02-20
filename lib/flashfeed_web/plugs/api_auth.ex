@@ -28,7 +28,9 @@ defmodule FlashfeedWeb.Plug.APIAuth do
     store_config = store_config(config)
     token = Pow.UUID.generate()
     renew_token = Pow.UUID.generate()
-    conn = conn
+
+    conn =
+      conn
       |> Conn.put_private(:api_auth_token, token)
       |> Conn.put_private(:api_renew_token, renew_token)
 

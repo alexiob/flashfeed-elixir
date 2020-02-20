@@ -15,6 +15,7 @@ config :flashfeed, FlashfeedWeb.Endpoint,
 
 config :phoenix,
   # plug_init_mode: :runtime,
+  serve_endpoints: true,
   persistent: true
 
 config :logger, level: :info

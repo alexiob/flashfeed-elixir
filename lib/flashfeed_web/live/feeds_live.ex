@@ -66,14 +66,15 @@ defmodule FlashfeedWeb.FeedsLive do
   end
 
   def handle_info(%{event: :logout, current_user: _current_user}, socket) do
-    socket = socket
-    |> assign(current_user: nil)
-    |> redirect(to: Routes.pow_session_path(socket, :new))
+    socket =
+      socket
+      |> assign(current_user: nil)
+      |> redirect(to: Routes.pow_session_path(socket, :new))
 
     {:noreply, socket}
   end
 
-  defp new_active_source(title, url, "video" = media_type , date) do
+  defp new_active_source(title, url, "video" = media_type, date) do
     proxy_url =
       case url do
         nil -> url

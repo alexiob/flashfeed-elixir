@@ -77,7 +77,7 @@ defmodule Flashfeed.MixProject do
       {:pow, "~> 1.0.18"},
       {:gettext, "~> 0.17.4"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
-      {:credo, "~> 1.2.2", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.2.2", only: [:dev, :test], runtime: false}
       # {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       # {:excoveralls, "~> 0.9", only: [:dev]},
       # {:eye_drops, "~> 1.3", only: [:dev], runtime: false},
@@ -90,7 +90,8 @@ defmodule Flashfeed.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      # test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["test"]
     ]
   end
 
