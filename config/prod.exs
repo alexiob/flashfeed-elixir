@@ -14,8 +14,8 @@ config :flashfeed, FlashfeedWeb.Endpoint,
   watchers: []
 
 config :phoenix,
-  # plug_init_mode: :runtime,
-  serve_endpoints: true,
   persistent: true
 
 config :logger, level: :info
+
+config :mnesia, dir: '/mnt/mnesia'

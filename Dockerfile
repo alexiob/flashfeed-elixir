@@ -12,7 +12,7 @@ RUN apk update && \
     apk add --update git build-base nodejs yarn python inotify-tools && \
     mix local.hex --force && \
     mix local.rebar --force && \
-    mix archive.install hex phx_new 1.4.11
+    mix archive.install hex phx_new 1.4.13
 
 WORKDIR /srv/flashfeed
 
@@ -59,9 +59,9 @@ USER nobody
 
 ENV LANG=C.UTF-8 \
     REPLACE_OS_VARS=true \
-    PORT=41384 \
+    FLASHFEED_ENDPOINT_PORT=41384 \
     HOME=/srv/flashfeed
 
-EXPOSE $PORT
+EXPOSE $FLASHFEED_ENDPOINT_PORT
 
 CMD ["bin/flashfeed", "start"]

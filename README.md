@@ -37,17 +37,39 @@ docker build -t flashfeed-elixir:latest .
 
 ## Local Start
 
-Elixir
+### Elixir
 
 ```sh
 mix run --no-halt
 ```
 
-Docker:
+### Docker:
+
+Needs network and user access to a Postgres DB.
 
 ```sh
+export FLASHFEED_DB_DATABASE="flashfeed"
+export FLASHFEED_DB_USERNAME="postgres"
+export FLASHFEED_DB_PASSWORD="postgres"
+export FLASHFEED_DB_HOSTNAME="database"
+export FLASHFEED_DB_PORT="5432"
+
+export FLASHFEED_HOST_FOLDER_MNESIA="$(pwd)/tmp/docker/mnesia"
+
+mkdir -p $FLASHFEED_HOST_FOLDER_MNESIA
+
 docker stop flashfeed-elixir
-docker run --name flashfeed-elixir --rm -p 41384:41384 -t flashfeed-elixir:latest
+
+docker run -e FLASHFEED_DB_DATABASE \
+-e FLASHFEED_DB_USERNAME \
+-e FLASHFEED_DB_PASSWORD \
+-e FLASHFEED_DB_HOSTNAME \
+-e FLASHFEED_DB_PORT \
+--volume ${FLASHFEED_HOST_FOLDER_MNESIA}:/mnt/mnesia \
+--name flashfeed-elixir \
+--rm \
+-p 41384:41384 \
+-t flashfeed-elixir:latest
 ```
 
 ## Start

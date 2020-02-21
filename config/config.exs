@@ -20,7 +20,7 @@ config :flashfeed,
 
 # Configures the endpoint
 config :flashfeed, FlashfeedWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "0.0.0.0"],
   secret_key_base: "HdiRX3eQXDSvyt+mzCVtq0mrRha0VI/MW5dyPJleMuMjvzrAskMku68+k9YnfvHq",
   render_errors: [view: FlashfeedWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: Flashfeed.PubSub, adapter: Phoenix.PubSub.PG2],
@@ -60,7 +60,7 @@ config :flashfeed, :pow,
   web_module: FlashfeedWeb,
   credentials_cache_store: {
     Pow.Store.CredentialsCache,
-    ttl: :timer.minutes(10), namespace: "auth:sessions:pow"
+    ttl: :timer.minutes(15), namespace: "auth:sessions:pow"
   },
   session_ttl_renewal: :timer.minutes(10),
   cache_store_backend: Pow.Store.Backend.MnesiaCache,
