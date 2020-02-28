@@ -46,14 +46,28 @@ defmodule FlashfeedWeb.Router do
     get "/proxy/*url", FeedController, :proxy
   end
 
+  scope "/api" do
+    pipe_through [:api, :api_protected]
+
+    forward "/graphql",
+      Absinthe.Plug,
+      schema: FlashfeedWeb.GraphQL.Schema,
+      socket: FlashfeedWeb.UserSocket
+
+    forward "/graphiql",
+      Absinthe.Plug.GraphiQL,
+      schema: FlashfeedWeb.GraphQL.Schema,
+      interface: :simple
+  end
+
   scope "/docs/swagger" do
     forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :flashfeed, swagger_file: "swagger.json"
   end
 
-  scope "/", FlashfeedWeb do
+  scope "/" do
     pipe_through [:browser, :browser_protected]
 
-    get "/", PageController, :index
+    get "/", FlashfeedWeb.PageController, :index
   end
 
   def swagger_info do

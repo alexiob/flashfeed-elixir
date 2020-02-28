@@ -3,6 +3,8 @@ defmodule Flashfeed.News.Sources do
 
   require Logger
 
+  alias Flashfeed.News.Entity
+
   @spec load :: [Flashfeed.News.Entity.t()] | {:error, atom}
   def load do
     filename =
@@ -48,7 +50,7 @@ defmodule Flashfeed.News.Sources do
         "outlet_title" => news_outlet["title"],
         "outlet_url" => news_outlet["url"]
       })
-      |> Flashfeed.News.Entity.new()
+      |> Entity.new()
     end
   end
 end

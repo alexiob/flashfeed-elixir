@@ -205,7 +205,7 @@ defmodule Flashfeed.News.Crawler do
     Phoenix.PubSub.broadcast(
       Flashfeed.PubSub,
       @topic_entity_feeds,
-      %{event: :update, state: state}
+      %{event: :feeds_update, state: state}
     )
 
     state

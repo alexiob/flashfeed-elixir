@@ -22,12 +22,12 @@ defmodule Flashfeed.MixProject do
     if Mix.env() != :test do
       [
         mod: {Flashfeed.Application, []},
-        extra_applications: [:logger, :timex, :runtime_tools],
+        extra_applications: [:logger, :timex, :runtime_tools, :absinthe_plug],
         included_applications: [:mnesia]
       ]
     else
       [
-        extra_applications: [:logger],
+        extra_applications: [:logger, :absinthe_plug],
         included_applications: [:mnesia]
       ]
     end
@@ -55,7 +55,7 @@ defmodule Flashfeed.MixProject do
   defp deps do
     [
       {:jason, "~> 1.1.2"},
-      {:ecto, "~> 3.3.3"},
+      {:ecto, "~> 3.3.4"},
       {:ecto_sql, "~> 3.3.4"},
       {:postgrex, "~> 0.15.3"},
       {:httpoison, "~> 1.6.2"},
@@ -63,15 +63,18 @@ defmodule Flashfeed.MixProject do
       {:timex, "~> 3.6.1"},
       {:plug_cowboy, "~> 2.1.2"},
       {:plug, "~> 1.8.3"},
-      {:cors_plug, "~> 2.0.1"},
+      {:cors_plug, "~> 2.0.2"},
       {:exconstructor, "~> 1.1.0"},
       {:spellbook, "~> 2.0.3"},
       {:observer_cli, "~> 1.5.3"},
+      {:absinthe, "~> 1.4.0"},
+      {:absinthe_plug, "~> 1.4.0"},
+      {:absinthe_phoenix, "~> 1.4.0"},
       {:phoenix, "~> 1.4.14"},
       {:phoenix_pubsub, "~> 1.1.2"},
       {:phoenix_ecto, "~> 4.1.0"},
       {:phoenix_html, "~> 2.14.0", override: true},
-      {:phoenix_live_view, "~> 0.8.0"},
+      {:phoenix_live_view, "~> 0.8.1"},
       {:phoenix_live_reload, "~> 1.2.1", only: [:dev]},
       {:phoenix_swagger, "~> 0.8.2"},
       {:pow, "~> 1.0.18"},

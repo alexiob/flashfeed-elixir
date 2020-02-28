@@ -1,6 +1,7 @@
 defmodule FlashfeedWeb.FeedsLive do
   @moduledoc false
   use Phoenix.LiveView
+  alias Flashfeed.News.Crawler
   alias FlashfeedWeb.Router.Helpers, as: Routes
 
   require Logger
@@ -10,7 +11,7 @@ defmodule FlashfeedWeb.FeedsLive do
   end
 
   def mount(_params, %{"current_user" => current_user} = _session, socket) do
-    Flashfeed.News.Crawler.subscribe()
+    Crawler.subscribe()
     FlashfeedWeb.UserAuthenticationCallbacks.subscribe(current_user.id)
 
     {
@@ -56,16 +57,16 @@ defmodule FlashfeedWeb.FeedsLive do
     {:noreply, assign(socket, loading: false, entity_feeds: filtered_entity_feeds(query))}
   end
 
-  def handle_info(%{event: :update}, socket) do
+  def handle_info(%{event: :feeds_update}, socket) do
     {:noreply, assign(socket, entity_feeds: filtered_entity_feeds(socket.assigns.query))}
   end
 
   # NOTE: this is not going to happen as we are doing login from a NOT-LiveView and so, no mount
-  def handle_info(%{event: :login, current_user: current_user}, socket) do
+  def handle_info(%{event: :auth_login, current_user: current_user}, socket) do
     {:noreply, assign(socket, current_user: current_user)}
   end
 
-  def handle_info(%{event: :logout, current_user: _current_user}, socket) do
+  def handle_info(%{event: :auth_logout, current_user: _current_user}, socket) do
     socket =
       socket
       |> assign(current_user: nil)
@@ -124,7 +125,7 @@ defmodule FlashfeedWeb.FeedsLive do
       |> String.downcase()
       |> String.split()
 
-    Map.values(Flashfeed.News.Crawler.entity_feeds())
+    Map.values(Crawler.entity_feeds())
     |> Enum.filter(fn entity_feed ->
       text = String.downcase(entity_feed.title_text)
 
