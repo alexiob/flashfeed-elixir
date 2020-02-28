@@ -78,14 +78,6 @@ docker run -e FLASHFEED_DB_DATABASE \
 
 ## Endpoint Test
 
-Local:
-
 ```sh
 curl -X GET http://localhost:41384/api/v1/feed/amazon_alexa/rainews/rainews/it/fvg/gr
-```
-
-Deployment:
-
-```sh
-curl -X GET https://flashfeed.iob.toys/api/v1/feed/amazon_alexa/rainews/rainews/it/fvg/gr
 ```
