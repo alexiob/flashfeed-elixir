@@ -72,10 +72,6 @@ docker run -e FLASHFEED_DB_DATABASE \
 -t flashfeed-elixir:latest
 ```
 
-## Start
-
-## Deploy
-
 ## Endpoint Test
 
 ```sh
