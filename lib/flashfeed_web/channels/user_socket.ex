@@ -1,5 +1,7 @@
 defmodule FlashfeedWeb.UserSocket do
   use Phoenix.Socket
+  use Absinthe.Phoenix.Socket, schema: FlashfeedWeb.GraphQL.Schema
+
   require Logger
 
   ## Channels

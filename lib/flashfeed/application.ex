@@ -23,7 +23,8 @@ defmodule Flashfeed.Application do
       Flashfeed.Repo,
       Flashfeed.News.Crawler,
       FlashfeedWeb.Endpoint,
-      FlashfeedWeb.Presence
+      FlashfeedWeb.Presence,
+      {Absinthe.Subscription, [FlashfeedWeb.Endpoint]}
     ]
 
     extra_children =
