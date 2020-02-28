@@ -8,6 +8,7 @@ Exercises:
 - [Phoenix Framework](https://www.phoenixframework.org/) as API server and CORS proxy
 - [Phenix LiveView](https://github.com/phoenixframework/phoenix_live_view) for UI with live search and media playback
 - [Pow](https://github.com/danschultzer/pow) for user authentication, integrated with LiveView
+- [Absinthe](https://github.com/absinthe-graphql/absinthe) for GraphQL
 - [Floki](https://github.com/philss/floki) HTML parser for web scraping
 - [News feed generation](https://developer.amazon.com/en-US/docs/alexa/flashbriefing/understand-the-flash-briefing-skill-api.html) for Amazon Alexa
 - Docker with Multi-stage build
