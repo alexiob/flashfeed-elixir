@@ -1,10 +1,11 @@
 defmodule Flashfeed.MixProject do
+  @moduledoc false
   use Mix.Project
 
   def project do
     [
       app: :flashfeed,
-      version: "0.3.0",
+      version: "0.4.0",
       elixir: "~> 1.9",
       description: description(),
       dialyzer: dialyzer(),
@@ -81,11 +82,6 @@ defmodule Flashfeed.MixProject do
       {:gettext, "~> 0.17.4"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
       {:credo, "~> 1.2.2", only: [:dev, :test], runtime: false}
-      # {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      # {:excoveralls, "~> 0.9", only: [:dev]},
-      # {:eye_drops, "~> 1.3", only: [:dev], runtime: false},
-      # {:inch_ex, "~> 2.0", only: [:dev], runtime: false},
-      # {:stream_data, "~> 0.4", only: [:dev]}
     ]
   end
 
