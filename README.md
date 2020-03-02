@@ -7,7 +7,7 @@ Exercises:
 - [Elixir](https://elixir-lang.org/) language
 - [Phoenix Framework](https://www.phoenixframework.org/) as API server and CORS proxy
 - [Phenix LiveView](https://github.com/phoenixframework/phoenix_live_view) for UI with live search and media playback
-- [Pow](https://github.com/danschultzer/pow) for user authentication, integrated with LiveView
+- [Pow](https://github.com/danschultzer/pow) for user authentication, integrated with LiveView, REST API and GraphQL API
 - [Absinthe](https://github.com/absinthe-graphql/absinthe) for GraphQL
 - [Floki](https://github.com/philss/floki) HTML parser for web scraping
 - [News feed generation](https://developer.amazon.com/en-US/docs/alexa/flashbriefing/understand-the-flash-briefing-skill-api.html) for Amazon Alexa
@@ -73,20 +73,8 @@ docker run -e FLASHFEED_DB_DATABASE \
 -t flashfeed-elixir:latest
 ```
 
-## Start
-
-## Deploy
-
 ## Endpoint Test
-
-Local:
 
 ```sh
 curl -X GET http://localhost:41384/api/v1/feed/amazon_alexa/rainews/rainews/it/fvg/gr
-```
-
-Deployment:
-
-```sh
-curl -X GET https://flashfeed.iob.toys/api/v1/feed/amazon_alexa/rainews/rainews/it/fvg/gr
 ```
