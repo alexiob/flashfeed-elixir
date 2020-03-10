@@ -71,17 +71,17 @@ defmodule Flashfeed.MixProject do
       {:absinthe, "~> 1.4.0"},
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
-      {:phoenix, "~> 1.4.14"},
+      {:phoenix, "~> 1.4.15"},
       {:phoenix_pubsub, "~> 1.1.2"},
       {:phoenix_ecto, "~> 4.1.0"},
       {:phoenix_html, "~> 2.14.0", override: true},
-      {:phoenix_live_view, "~> 0.8.1"},
+      {:phoenix_live_view, "~> 0.9.0"},
       {:phoenix_live_reload, "~> 1.2.1", only: [:dev]},
       {:phoenix_swagger, "~> 0.8.2"},
       {:pow, "~> 1.0.18"},
       {:gettext, "~> 0.17.4"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
-      {:credo, "~> 1.2.2", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.2.3", only: [:dev, :test], runtime: false}
     ]
   end
 

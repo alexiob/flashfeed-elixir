@@ -26,8 +26,7 @@ mix phx.swagger.generate
 Note: when LiveView version is updated we need to update the assets as well
 
 ```sh
-cd assets
-npm install phoenix_live_view --force
+cd assets && npm install phoenix_live_view --force
 ```
 
 ## Local Docker Build
