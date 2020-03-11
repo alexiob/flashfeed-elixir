@@ -14,10 +14,11 @@ defmodule FlashfeedWeb.Plug.AssignUser do
       %User{} = user ->
         conn
         |> assign(:current_user, Repo.preload(user, params[:preload] || []))
-
+        |> put_session(:live_socket_id, "users_sockets:#{user.id}")
       _ ->
         conn
         |> assign(:current_user, nil)
+        |> delete_session(:live_socket_id)
     end
   end
 end

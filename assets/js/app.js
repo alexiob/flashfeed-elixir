@@ -76,7 +76,20 @@ Hooks.ActiveSource = {
   }
 };
 
+function wait(ms) {
+  return () => new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
+}
+
+function keepAlive() {
+  fetch('/api/v1/version')
+    .then(wait(60 * 1000 /*ms*/))
+    .then(keepAlive);
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: Hooks});
 
 liveSocket.connect();
+keepAlive();

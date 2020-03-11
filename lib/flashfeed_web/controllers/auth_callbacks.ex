@@ -36,6 +36,8 @@ defmodule FlashfeedWeb.UserAuthenticationCallbacks do
   def before_process(Pow.Phoenix.SessionController, :delete, conn, config) do
     current_user = Pow.Plug.current_user(conn)
 
+    FlashfeedWeb.Endpoint.broadcast("users_socket:#{current_user.id}", "disconnect", %{})
+
     notify(:auth_logout, current_user)
 
     ControllerCallbacks.before_process(Pow.Phoenix.SessionController, :delete, conn, config)
