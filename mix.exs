@@ -6,7 +6,7 @@ defmodule Flashfeed.MixProject do
     [
       app: :flashfeed,
       version: "0.4.0",
-      elixir: "~> 1.9",
+      elixir: "~> 1.10.2",
       description: description(),
       dialyzer: dialyzer(),
       package: package(),
@@ -75,12 +75,13 @@ defmodule Flashfeed.MixProject do
       {:phoenix_pubsub, "~> 1.1.2"},
       {:phoenix_ecto, "~> 4.1.0"},
       {:phoenix_html, "~> 2.14.0", override: true},
-      {:phoenix_live_view, "~> 0.9.0"},
+      {:phoenix_live_view, "~> 0.10.0"},
       {:phoenix_live_reload, "~> 1.2.1", only: [:dev]},
       {:phoenix_swagger, "~> 0.8.2"},
-      {:pow, "~> 1.0.18"},
+      {:pow, "~> 1.0.19"},
+      {:cachex, "~> 3.2"},
       {:gettext, "~> 0.17.4"},
-      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
       {:credo, "~> 1.2.3", only: [:dev, :test], runtime: false}
     ]
   end

@@ -1,13 +1,16 @@
 use Mix.Config
 
+config :flashfeed,
+  crawler_every_seconds: 60
+
 config :flashfeed, Flashfeed.Repo,
   username: "alex",
   password: "postgres"
 
 config :flashfeed, FlashfeedWeb.Endpoint,
   server: true,
-  http: [port: 41384],
-  url: [port: 41384],
+  http: [port: 41_384],
+  url: [port: 41_384],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

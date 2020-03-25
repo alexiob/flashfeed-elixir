@@ -5,6 +5,9 @@ defmodule Flashfeed.News.Crawler do
 
   require Logger
 
+  alias Flashfeed.News.Crawler.Utilities
+  alias Flashfeed.News.Sources
+
   @fetch_feed_task_timeout 10_000
   @crawler_engine_module_signature "Elixir.Flashfeed.News.Crawler.Engine."
   @topic_entity_feeds "entity_feeds"
@@ -19,8 +22,6 @@ defmodule Flashfeed.News.Crawler do
 
     Logger.debug("Flashfeed.News.Crawler.init")
 
-    schedule_update()
-
     {:ok, state, {:continue, :crawl}}
   end
 
@@ -28,10 +29,11 @@ defmodule Flashfeed.News.Crawler do
   This is public so it can be used in tests. Is this the proper approach?
   """
   def init_state(state) do
-    entities = Flashfeed.News.Sources.load()
+    entities = Sources.load()
 
     state
     |> Map.put(:entities, entities)
+    |> Map.put(:entity_feeds_last_update, nil)
     |> Map.put(:entity_feeds, %{})
     |> Map.put(:crawler_engines, retrieve_crawler_engines())
   end
@@ -45,6 +47,7 @@ defmodule Flashfeed.News.Crawler do
   end
 
   def subscribe do
+    Logger.debug("Flashfeed.News.Crawler.subscribe: #{inspect(self())}")
     Phoenix.PubSub.subscribe(Flashfeed.PubSub, @topic_entity_feeds)
   end
 
@@ -58,10 +61,17 @@ defmodule Flashfeed.News.Crawler do
   end
 
   @doc """
+  Get last time the feeds where updated
+  """
+  def entity_feeds_last_update do
+    GenServer.call(__MODULE__, {:entity_feeds_last_update})
+  end
+
+  @doc """
   Gets the feed
   """
   def feed(%{outlet: _, source: _, country: _, region: _, name: _, format: format} = entry_fields) do
-    entity_key = Flashfeed.News.Crawler.Utilities.entity_key(entry_fields)
+    entity_key = Utilities.entity_key(entry_fields)
     GenServer.call(__MODULE__, {:feed, entity_key, format})
   end
 
@@ -75,6 +85,11 @@ defmodule Flashfeed.News.Crawler do
   @impl true
   def handle_call({:entity_feeds}, _from, state) do
     {:reply, state.entity_feeds, state}
+  end
+
+  @impl true
+  def handle_call({:entity_feeds_last_update}, _from, state) do
+    {:reply, state.entity_feeds_last_update, state}
   end
 
   @impl true
@@ -146,9 +161,9 @@ defmodule Flashfeed.News.Crawler do
 
   defp entity_crawler(entity, state) do
     Task.async(fn ->
-      Logger.debug(
-        "Flashfeed.News.Crawler.crawl: entity '#{entity.name}-#{entity.country}-#{entity.region}'"
-      )
+      # Logger.debug(
+      #   "Flashfeed.News.Crawler.crawl: entity '#{entity.name}-#{entity.country}-#{entity.region}'"
+      # )
 
       crawler = Map.get(state.crawler_engines, entity.crawler, nil)
 
@@ -174,6 +189,8 @@ defmodule Flashfeed.News.Crawler do
   end
 
   defp crawl_entities(state) do
+    Logger.info("Flashfeed.News.Crawler.crawl_entities: started at #{DateTime.utc_now()}")
+
     entity_feeds =
       Enum.map(state.entities, fn entity ->
         entity_crawler(entity, state)
@@ -198,7 +215,7 @@ defmodule Flashfeed.News.Crawler do
           end)
       end
 
-    %{state | entity_feeds: entity_feeds}
+    %{state | entity_feeds: entity_feeds, entity_feeds_last_update: NaiveDateTime.local_now()}
   end
 
   defp notify_updated_feeds(state) do

@@ -3,6 +3,8 @@ defmodule Flashfeed.Application do
 
   use Application
 
+  import Cachex.Spec
+
   require Logger
 
   @impl true
@@ -24,12 +26,18 @@ defmodule Flashfeed.Application do
       Flashfeed.News.Crawler,
       FlashfeedWeb.Endpoint,
       FlashfeedWeb.Presence,
-      {Absinthe.Subscription, [FlashfeedWeb.Endpoint]}
+      {Absinthe.Subscription, [FlashfeedWeb.Endpoint]},
+      Supervisor.Spec.worker(Cachex, [
+        :user_data_cache,
+        [expiration: expiration(default: :timer.hours(1), interval: :timer.hours(1))]
+      ])
     ]
 
     extra_children =
       case Application.get_env(:flashfeed, :pow)[:cache_store_backend] do
         Pow.Store.Backend.MnesiaCache ->
+          File.mkdir_p!(Application.get_env(:mnesia, :dir))
+
           [
             {Pow.Store.Backend.MnesiaCache, [extra_db_nodes: [node()]]},
             Pow.Store.Backend.MnesiaCache.Unsplit

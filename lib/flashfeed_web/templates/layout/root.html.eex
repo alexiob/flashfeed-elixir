@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= csrf_meta_tag() %>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no"/>
+    <title>Flashfeed</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+
+    <script src="https://kit.fontawesome.com/94dccc5d50.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  </head>
+  <body>
+    <header>
+      <section class="ff-header">
+        <div>
+        <%= if Pow.Plug.current_user(@conn) do %>
+          <%= @current_user.email %> / <%= link "Sign Out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
+        <% else %>
+          <%= link "Register", to: Routes.pow_registration_path(@conn, :new)%> / <%= link "Sign In", to: Routes.pow_session_path(@conn, :new)%>
+        <% end %>
+        </div>
+      </section>
+      <section class="container">
+        <a href="https://flashfeed.iob.toys/" class="ff-logo">
+          <img src="<%= Routes.static_path(@conn, "/images/flashfeed_logo.png") %>" alt="Flashfeed Logo"/>
+          <p class='ff-logo-title'>flashfeed</p>
+        </a>
+      </div>
+    </header>
+
+    <%= @inner_content %>
+
+    <footer>
+      <section class="ff-footer">
+        <div>
+          Copyright 2020 <a href="https://github.com/alexiob">Alessandro Iob</a>
+        </div>
+      </section>
+    </footer>
+  </body>
+</html>

@@ -1,4 +1,6 @@
 defmodule FlashfeedWeb.Router do
+  @moduledoc false
+
   use FlashfeedWeb, :router
   use Pow.Phoenix.Router
 
@@ -10,6 +12,7 @@ defmodule FlashfeedWeb.Router do
     plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_root_layout, {FlashfeedWeb.LayoutView, :root}
   end
 
   pipeline :api do
@@ -50,14 +53,14 @@ defmodule FlashfeedWeb.Router do
     pipe_through [:api, :api_protected]
 
     forward "/graphql",
-      Absinthe.Plug,
-      schema: FlashfeedWeb.GraphQL.Schema,
-      socket: FlashfeedWeb.UserSocket
+            Absinthe.Plug,
+            schema: FlashfeedWeb.GraphQL.Schema,
+            socket: FlashfeedWeb.UserSocket
 
     forward "/graphiql",
-      Absinthe.Plug.GraphiQL,
-      schema: FlashfeedWeb.GraphQL.Schema,
-      interface: :simple
+            Absinthe.Plug.GraphiQL,
+            schema: FlashfeedWeb.GraphQL.Schema,
+            interface: :simple
   end
 
   scope "/docs/swagger" do

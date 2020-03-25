@@ -7,27 +7,49 @@ defmodule FlashfeedWeb.FeedsLive do
   require Logger
 
   def render(assigns) do
+    Logger.debug("Flashfeed.FeedsLive.render[#{inspect(self())}]")
     Phoenix.View.render(FlashfeedWeb.FeedsLiveView, "feeds_live.html", assigns)
   end
 
   def mount(_params, %{"current_user" => current_user} = _session, socket) do
+    Logger.debug("Flashfeed.FeedsLive.mount[#{inspect(self())}]")
     Crawler.subscribe()
     FlashfeedWeb.UserAuthenticationCallbacks.subscribe(current_user.id)
+
+    user_data = get_user_data_cache(current_user.id)
 
     {
       :ok,
       assign(
         socket,
         current_user: current_user,
-        query: nil,
+        query: user_data.query,
         loading: false,
-        entity_feeds: filtered_entity_feeds(),
+        entity_feeds_last_update: Crawler.entity_feeds_last_update(),
+        entity_feeds: filtered_entity_feeds(user_data.query),
         active_source: new_active_source("just click on an entry", nil, nil, "Select source...")
       )
     }
   end
 
+  defp get_user_data_cache(user_id) do
+    case Cachex.get(:user_data_cache, {__MODULE__, user_id}) do
+      {:ok, nil} -> %{query: nil}
+      {:ok, data} -> data
+    end
+  end
+
+  def update_user_data_cache(user_id, data) do
+    Cachex.put(
+      :user_data_cache,
+      {__MODULE__, user_id},
+      Map.merge(get_user_data_cache(user_id), data)
+    )
+  end
+
   def handle_event("suggest", %{"q" => query}, socket) when byte_size(query) <= 100 do
+    update_user_data_cache(socket.assigns.current_user.id, %{query: query})
+
     {:noreply, assign(socket, query: query, entity_feeds: filtered_entity_feeds(query))}
   end
 
@@ -54,11 +76,24 @@ defmodule FlashfeedWeb.FeedsLive do
   end
 
   def handle_info({:search, query}, socket) do
+    update_user_data_cache(socket.assigns.current_user.id, %{query: query})
+
     {:noreply, assign(socket, loading: false, entity_feeds: filtered_entity_feeds(query))}
   end
 
   def handle_info(%{event: :feeds_update}, socket) do
-    {:noreply, assign(socket, entity_feeds: filtered_entity_feeds(socket.assigns.query))}
+    Logger.debug("Flashfeed.FeedsLive.handle_info[#{inspect(self())}]: :feeds_update")
+    # Logger.debug(
+    #   "Flashfeed.FeedsLive.handle_info[#{inspect(self())}]: :feeds_update query='#{
+    #     socket.assigns.query
+    #   }' #{inspect(filtered_entity_feeds(socket.assigns.query), pretty: true)}"
+    # )
+
+    {:noreply,
+     assign(socket,
+       entity_feeds_last_update: Crawler.entity_feeds_last_update(),
+       entity_feeds: filtered_entity_feeds(socket.assigns.query)
+     )}
   end
 
   # NOTE: this is not going to happen as we are doing login from a NOT-LiveView and so, no mount

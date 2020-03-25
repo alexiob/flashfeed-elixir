@@ -1,4 +1,5 @@
 <%= if @current_user  do %>
+    <div class="ff-last-update">Last Update: <%= @entity_feeds_last_update %></div>
     <div id="active-source" phx-hook="ActiveSource" data-type="<%= @active_source.media_type %>" data-url="<%= raw(@active_source.url) %>">
     <div class="ff-player-title-date"><%= @active_source.date %></div>
     <div class="ff-player-title"><%= @active_source.title %></div>
