@@ -144,19 +144,20 @@ defmodule Flashfeed.News.Crawler do
   # PRIVATE FUNCTIONS
 
   defp crawl(state) do
-    schedule_update()
-
     state
     |> update()
     |> notify_updated_feeds()
+    |> schedule_update()
   end
 
-  defp schedule_update do
+  defp schedule_update(state) do
     Process.send_after(
       self(),
       :crawl,
       Application.get_env(:flashfeed, :crawler_every_seconds, 3600) * 1000
     )
+
+    state
   end
 
   defp entity_crawler(entity, state) do

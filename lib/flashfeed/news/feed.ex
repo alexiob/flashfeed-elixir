@@ -7,6 +7,7 @@ defmodule Flashfeed.News.Feed do
             url: "",
             media_type: "",
             key: "",
+            checked_at: nil,
             updated_at: nil,
             title_text: "",
             main_text: "",

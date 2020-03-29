@@ -39,17 +39,15 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
 
   @impl Flashfeed.News.Crawler.Engine
   def update(current_entity_feeds, new_entity_feeds) do
-    new_entity_feeds =
-      Keyword.get_values(new_entity_feeds, :ok)
-      |> Enum.filter(fn feed ->
-        current_feed = Map.get(current_entity_feeds, feed.key, nil)
-        is_updated(current_feed, feed)
-      end)
-      |> Enum.reduce(%{}, fn feed, acc ->
-        Map.put(acc, feed.key, feed)
-      end)
+    Keyword.get_values(new_entity_feeds, :ok)
+    |> Enum.reduce(%{}, fn feed, acc ->
+      current_feed = Map.get(current_entity_feeds, feed.key, nil)
 
-    Map.merge(current_entity_feeds, new_entity_feeds)
+      case is_updated(current_feed, feed) do
+        true -> Map.put(acc, feed.key, feed)
+        false -> Map.put(acc, feed.key, %{current_feed | checked_at: feed.checked_at})
+      end
+    end)
   end
 
   @doc false
@@ -87,6 +85,10 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
           # IO.binwrite(file, Jason.encode!(content))
           # File.close(file)
 
+          # Logger.debug(
+          #   ">>> rainews.fetch_entity_feed[#{name}][#{url}]: #{inspect(content, pretty: true)}"
+          # )
+
           if content["count"] > 0 do
             item = List.first(content["items"])
             updated_at = DateTime.utc_now()
@@ -110,6 +112,7 @@ defmodule Flashfeed.News.Crawler.Engine.RaiNews do
                url: Utilities.https_url(item["mediaUrl"]),
                media_type: Utilities.media_type(item["type"]),
                key: Utilities.entity_key(entity, name),
+               checked_at: updated_at,
                updated_at: updated_at,
                title_text: title_text,
                main_text: main_text,

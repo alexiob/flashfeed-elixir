@@ -82,12 +82,12 @@ defmodule FlashfeedWeb.FeedsLive do
   end
 
   def handle_info(%{event: :feeds_update}, socket) do
-    Logger.debug("Flashfeed.FeedsLive.handle_info[#{inspect(self())}]: :feeds_update")
-    # Logger.debug(
-    #   "Flashfeed.FeedsLive.handle_info[#{inspect(self())}]: :feeds_update query='#{
-    #     socket.assigns.query
-    #   }' #{inspect(filtered_entity_feeds(socket.assigns.query), pretty: true)}"
-    # )
+    # Logger.debug("Flashfeed.FeedsLive.handle_info[#{inspect(self())}]: :feeds_update")
+    Logger.debug(
+      "Flashfeed.FeedsLive.handle_info[#{inspect(self())}]: :feeds_update query='#{
+        socket.assigns.query
+      }' #{inspect(filtered_entity_feeds(socket.assigns.query), pretty: true)}"
+    )
 
     {:noreply,
      assign(socket,
