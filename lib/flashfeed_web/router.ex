@@ -5,6 +5,7 @@ defmodule FlashfeedWeb.Router do
   use Pow.Phoenix.Router
 
   import Phoenix.LiveView.Router
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -71,6 +72,7 @@ defmodule FlashfeedWeb.Router do
     pipe_through [:browser, :browser_protected]
 
     get "/", FlashfeedWeb.PageController, :index
+    live_dashboard "/dashboard"
   end
 
   def swagger_info do

@@ -43,7 +43,7 @@ docker build -t flashfeed-elixir:latest .
 mix run --no-halt
 ```
 
-### Docker:
+### Docker
 
 Needs network and user access to a Postgres DB.
 

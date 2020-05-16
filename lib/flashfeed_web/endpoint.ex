@@ -42,6 +42,11 @@ defmodule FlashfeedWeb.Endpoint do
   end
 
   plug Plug.RequestId
+
+  plug Phoenix.LiveDashboard.RequestLogger,
+    param_key: "request_logger",
+    cookie_key: "request_logger"
+
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
   plug Plug.Logger
 

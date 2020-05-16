@@ -5,7 +5,7 @@ defmodule Flashfeed.MixProject do
   def project do
     [
       app: :flashfeed,
-      version: "0.4.0",
+      version: "0.4.1",
       elixir: "~> 1.10.2",
       description: description(),
       dialyzer: dialyzer(),
@@ -55,34 +55,35 @@ defmodule Flashfeed.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:jason, "~> 1.1.2"},
-      {:ecto, "~> 3.3.4"},
-      {:ecto_sql, "~> 3.3.4"},
-      {:postgrex, "~> 0.15.3"},
+      {:jason, "~> 1.2.1"},
+      {:ecto, "~> 3.4.4"},
+      {:ecto_sql, "~> 3.4.3"},
+      {:postgrex, "~> 0.15.4"},
       {:httpoison, "~> 1.6.2"},
-      {:floki, "~> 0.25.0"},
+      {:floki, "~> 0.26.0"},
       {:timex, "~> 3.6.1"},
-      {:plug_cowboy, "~> 2.1.2"},
-      {:plug, "~> 1.8.3"},
+      {:plug_cowboy, "~> 2.2.1"},
+      {:plug, "~> 1.10.1"},
       {:cors_plug, "~> 2.0.2"},
       {:exconstructor, "~> 1.1.0"},
       {:spellbook, "~> 2.0.3"},
       {:observer_cli, "~> 1.5.3"},
-      {:absinthe, "~> 1.4.0"},
-      {:absinthe_plug, "~> 1.4.0"},
-      {:absinthe_phoenix, "~> 1.4.0"},
-      {:phoenix, "~> 1.4.15"},
-      {:phoenix_pubsub, "~> 1.1.2"},
+      {:absinthe, "~> 1.5.0"},
+      {:absinthe_plug, "~> 1.5.0"},
+      {:absinthe_phoenix, "~> 2.0.0"},
+      {:phoenix, "~> 1.5.1"},
+      {:phoenix_pubsub, "~> 2.0.0"},
       {:phoenix_ecto, "~> 4.1.0"},
-      {:phoenix_html, "~> 2.14.0", override: true},
-      {:phoenix_live_view, "~> 0.10.0"},
-      {:phoenix_live_reload, "~> 1.2.1", only: [:dev]},
+      {:phoenix_html, "~> 2.14.2", override: true},
+      {:phoenix_live_view, "~> 0.12.1", override: true},
+      {:phoenix_live_reload, "~> 1.2.2", only: [:dev]},
       {:phoenix_swagger, "~> 0.8.2"},
-      {:pow, "~> 1.0.19"},
-      {:cachex, "~> 3.2"},
-      {:gettext, "~> 0.17.4"},
+      {:phoenix_live_dashboard, "~> 0.2.3"},
+      {:pow, "~> 1.0.20"},
+      {:cachex, "~> 3.2.0"},
+      {:gettext, "~> 0.18.0"},
       {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
-      {:credo, "~> 1.2.3", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false}
     ]
   end
 

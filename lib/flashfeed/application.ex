@@ -22,11 +22,12 @@ defmodule Flashfeed.Application do
 
   defp children do
     children = [
+      {Phoenix.PubSub, [name: Flashfeed.PubSub, adapter: Phoenix.PubSub.PG2]},
       Flashfeed.Repo,
       Flashfeed.News.Crawler,
       FlashfeedWeb.Endpoint,
       FlashfeedWeb.Presence,
-      {Absinthe.Subscription, [FlashfeedWeb.Endpoint]},
+      {Absinthe.Subscription, FlashfeedWeb.Endpoint},
       Supervisor.Spec.worker(Cachex, [
         :user_data_cache,
         [expiration: expiration(default: :timer.hours(1), interval: :timer.hours(1))]

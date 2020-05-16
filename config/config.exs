@@ -6,8 +6,8 @@ config :flashfeed, ecto_repos: [Flashfeed.Repo]
 
 config :flashfeed, Flashfeed.Repo,
   database: "flashfeed",
-  username: "postgres",
-  password: "postgres",
+  username: "alex",
+  password: "alex",
   hostname: "localhost",
   port: "5432"
 
@@ -23,7 +23,7 @@ config :flashfeed, FlashfeedWeb.Endpoint,
   url: [host: "0.0.0.0"],
   secret_key_base: "HdiRX3eQXDSvyt+mzCVtq0mrRha0VI/MW5dyPJleMuMjvzrAskMku68+k9YnfvHq",
   render_errors: [view: FlashfeedWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Flashfeed.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: Flashfeed.PubSub,
   live_view: [
     signing_salt: "yxk+Z71c1eFJhk38fbQz3lqGxQRbQNDG"
   ]

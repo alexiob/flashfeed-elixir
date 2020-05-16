@@ -2,8 +2,8 @@ use Mix.Config
 
 config :flashfeed, Flashfeed.Repo,
   database: "flashfeed",
-  username: "postgres",
-  password: "postgres",
+  username: "alex",
+  password: "alex",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 

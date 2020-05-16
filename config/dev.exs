@@ -5,7 +5,7 @@ config :flashfeed,
 
 config :flashfeed, Flashfeed.Repo,
   username: "alex",
-  password: "postgres"
+  password: "alex"
 
 config :flashfeed, FlashfeedWeb.Endpoint,
   server: true,
