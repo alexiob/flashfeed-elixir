@@ -12,7 +12,7 @@ defmodule FlashfeedWeb.GraphQL.Schema.Queries.Feed do
 
     field :feed, :feed do
       description("Get a specific feed")
-      arg :key, non_null(:string)
+      arg(:key, non_null(:string))
       resolve(&Feed.get/3)
     end
   end

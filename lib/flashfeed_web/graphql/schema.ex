@@ -17,8 +17,9 @@ defmodule FlashfeedWeb.GraphQL.Schema do
   query do
     @desc "Pong back a ping message"
     field :ping, type: :string do
-      arg :message, non_null(:string)
-      resolve(fn (_parent, %{message: message}, _resolution) ->
+      arg(:message, non_null(:string))
+
+      resolve(fn _parent, %{message: message}, _resolution ->
         {:ok, "pong: #{message}"}
       end)
     end

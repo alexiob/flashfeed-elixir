@@ -5,7 +5,7 @@ defmodule Flashfeed.MixProject do
   def project do
     [
       app: :flashfeed,
-      version: "0.4.1",
+      version: "0.5.0",
       elixir: "~> 1.10.2",
       description: description(),
       dialyzer: dialyzer(),
@@ -28,7 +28,7 @@ defmodule Flashfeed.MixProject do
       ]
     else
       [
-        extra_applications: [:logger, :absinthe_plug],
+        extra_applications: [:logger, :absinthe_plug, :runtime_tools, :os_mon],
         included_applications: [:mnesia]
       ]
     end
@@ -83,7 +83,9 @@ defmodule Flashfeed.MixProject do
       {:cachex, "~> 3.2.0"},
       {:gettext, "~> 0.18.0"},
       {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
-      {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false},
+      {:telemetry_poller, "~> 0.4"},
+      {:telemetry_metrics, "~> 0.4"}
     ]
   end
 

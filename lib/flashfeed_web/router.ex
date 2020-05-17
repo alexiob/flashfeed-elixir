@@ -72,7 +72,7 @@ defmodule FlashfeedWeb.Router do
     pipe_through [:browser, :browser_protected]
 
     get "/", FlashfeedWeb.PageController, :index
-    live_dashboard "/dashboard"
+    live_dashboard "/dashboard", metrics: FlashfeedWeb.Telemetry
   end
 
   def swagger_info do

@@ -11,6 +11,7 @@ config :flashfeed, FlashfeedWeb.Endpoint,
   debug_errors: false,
   code_reloader: false,
   check_origin: false,
+  # render_errors: [view: FlashfeedWeb.ErrorView, accepts: ~w(html json)],
   watchers: []
 
 config :phoenix,
@@ -18,4 +19,5 @@ config :phoenix,
 
 config :logger, level: :info
 
-config :mnesia, dir: '/mnt/mnesia'
+# config :mnesia, dir: '/mnt/mnesia'
+config :mnesia, dir: './tmp/mnesia'

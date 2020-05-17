@@ -1,67 +1,51 @@
-#------------------------------
-# Build image
-#------------------------------
-FROM elixir:1.9-alpine AS build
-LABEL maintainer="Alessandro Iob <alessandro.iob@gmail.com>"
+FROM elixir:alpine AS build
 
-ARG APP_NAME=flashfeed
+# install build dependencies
+RUN apk add --no-cache build-base npm git python
 
-# RUN apk add tzdata && ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime
-
-RUN apk update && \
-    apk add --update git build-base nodejs yarn python inotify-tools && \
-    mix local.hex --force && \
-    mix local.rebar --force && \
-    mix archive.install hex phx_new 1.5.1
-
+# prepare build dir
 WORKDIR /srv/flashfeed
 
+# install hex + rebar
+RUN mix local.hex --force && \
+    mix local.rebar --force
+
+# set build ENV
+ENV MIX_ENV=prod
+
+# install mix dependencies
 COPY mix.exs mix.lock ./
 COPY config config
+RUN mix do deps.get, deps.compile
 
-# Environment setting
-ENV MIX_ENV=prod \
-    LANG=C.UTF-8 \
-    REPLACE_OS_VARS=true \
-    TERM=xterm
+# build assets
+COPY assets/package.json assets/package-lock.json ./assets/
+RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
 
-RUN mix deps.get && \
-    MIX_ENV=dev mix deps.compile && \
-    MIX_ENV=test mix deps.compile && \
-    mix deps.compile
+COPY priv priv
+COPY assets assets
+RUN npm run --prefix ./assets deploy
+RUN mix phx.digest
 
-# Application files
-COPY . .
+# compile and build release
+COPY lib lib
+# uncomment COPY if rel/ exists
+# COPY rel rel
+RUN mix do compile, release
 
-# Fetch the application dependencies and build the application
-
-RUN mix format --check-formatted && \
-    mix compile --force --warnings-as-errors && \
-    MIX_ENV=test mix test --exclude integration && \
-    yarn --cwd=./assets --non-interactive install && \
-    yarn --cwd=./assets --prod run deploy && \
-    mix phx.digest && \
-    mix release --overwrite
-
-#------------------------------
-# Release image
-#------------------------------
-FROM alpine:3.9 as release
-
-RUN apk update && \
-    apk add --no-cache --update bash openssl ncurses-libs
+# prepare release image
+FROM alpine:3.9 AS app
+RUN apk add --no-cache openssl ncurses-libs bash
 
 WORKDIR /srv/flashfeed
 
-COPY --from=build /srv/flashfeed/_build/prod/rel/flashfeed ./
-RUN chown -R nobody: .
-USER nobody
+RUN chown nobody:nobody /srv/flashfeed
 
-ENV LANG=C.UTF-8 \
-    REPLACE_OS_VARS=true \
-    FLASHFEED_ENDPOINT_PORT=41384 \
-    HOME=/srv/flashfeed
+USER nobody:nobody
 
-EXPOSE $FLASHFEED_ENDPOINT_PORT
+COPY --from=build --chown=nobody:nobody /srv/flashfeed/_build/prod/rel/flashfeed ./
+COPY scripts/wait-for-it.sh .
+
+ENV HOME=/srv/flashfeed
 
 CMD ["bin/flashfeed", "start"]

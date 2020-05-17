@@ -25,6 +25,7 @@ defmodule Flashfeed.Application do
       {Phoenix.PubSub, [name: Flashfeed.PubSub, adapter: Phoenix.PubSub.PG2]},
       Flashfeed.Repo,
       Flashfeed.News.Crawler,
+      FlashfeedWeb.Telemetry,
       FlashfeedWeb.Endpoint,
       FlashfeedWeb.Presence,
       {Absinthe.Subscription, FlashfeedWeb.Endpoint},
