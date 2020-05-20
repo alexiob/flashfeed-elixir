@@ -21,10 +21,10 @@
     <input class="ff-search" type="text" name="q" value="<%= @query %>" autocomplete="off" placeholder="search..." autofocus <%= if @loading, do: "readonly" %>/>
     <ul class="fa-ul">
         <%= for entity_feed <- @entity_feeds do %>
-        <li class="ff-entity-feed" phx-click="play" phx-value-source_title="<%= entity_feed.title_text %>" phx-value-source_date="<%= Timex.format!(entity_feed.date, "{0D}/{0M}/{YYYY}") %>" phx-value-source_url="<%= entity_feed.url %>" phx-value-source_media_type="<%= entity_feed.media_type %>">
+        <li class="ff-entity-feed" phx-click="play" phx-value-source_title="<%= entity_feed.title_text %>" phx-value-source_date="<%= Timex.format!(entity_feed.date, "{0D}/{0M}/{YYYY}") %>" phx-value-source_url="<%= entity_feed.url %>" phx-value-source_media_type="<%= entity_feed.media_type %>"><a class="ff-entity-feed" href="#">
             <span class="fa-li"><i class="fas <%= entity_feed.icon %>"></i></span>
             [<%= Timex.format!(entity_feed.date, "{0D}/{0M}/{YYYY}") %>] <%= entity_feed.title_text %>
-        </li>
+        </a></li>
         <% end %>
     </ul>
     </form>

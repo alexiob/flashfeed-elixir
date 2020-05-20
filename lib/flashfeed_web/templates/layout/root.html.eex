@@ -28,6 +28,7 @@
         <a href="https://flashfeed.iob.toys/" class="ff-logo">
           <img src="<%= Routes.static_path(@conn, "/images/flashfeed_logo.png") %>" alt="Flashfeed Logo"/>
           <p class='ff-logo-title'>flashfeed</p>
+          <p class='ff-logo-title' style="font-size: 0.7em; margin: -2rem 0 1rem 0;">version <%= Application.spec(:flashfeed, :vsn) |> to_string() %></p>
         </a>
       </div>
     </header>

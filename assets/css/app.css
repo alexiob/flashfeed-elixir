@@ -17,6 +17,7 @@ body {
   background-color: #f2dede;
   border-color: #ebccd1;
 }
+
 .alert {
   padding: 15px;
   margin-bottom: 20px;
@@ -28,18 +29,22 @@ body {
   display: flex;
   justify-content: flex-end;
 }
+
 .ff-header a:link {
   color: #c62ef9;
   text-decoration: none;
 }
+
 .ff-header a:visited {
   color: #c62ef9;
   text-decoration: none;
 }
+
 .ff-header a:hover {
   color: #e189fe;
   text-decoration: none;
 }
+
 .ff-header a:active {
   color: #ad6ec2;
   text-decoration: underline;
@@ -49,18 +54,22 @@ body {
   display: flex;
   justify-content: center;
 }
+
 .ff-footer a:link {
   color: #c62ef9;
   text-decoration: none;
 }
+
 .ff-footer a:visited {
   color: #c62ef9;
   text-decoration: none;
 }
+
 .ff-footer a:hover {
   color: #e189fe;
   text-decoration: none;
 }
+
 .ff-footer a:active {
   color: #ad6ec2;
   text-decoration: underline;
@@ -149,6 +158,15 @@ body {
   margin: 0rem 0 2rem 0;
 }
 
+input,
+select,
+textarea {
+  background-color: #4d0061;
+  color: #f4f5f6;
+  /* font-family: "Helvetica", "Arial", sans-serif; */
+  font-size: 1.4em;
+}
+
 .ff-search {
   background-color: #4d0061;
   color: #f4f5f6;
@@ -171,6 +189,30 @@ body {
 .ff-entity-feed {
   margin: 0px 0px 16px 0px;
   cursor: pointer;
+}
+
+.ff-entity-feed a {
+  color: #f4f5f6;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ff-entity-feed a:link {
+  color: #f4f5f6;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ff-entity-feed a:visited {
+  color: #f4f5f6;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ff-entity-feed a:hover {
+  color: #f4f5f6;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 pre {
@@ -199,7 +241,7 @@ pre {
   display: none !important;
 }
 
-.datalist-polyfill > li {
+.datalist-polyfill>li {
   padding: 3px;
   font: 13px "Lucida Grande", Sans-Serif;
 }
