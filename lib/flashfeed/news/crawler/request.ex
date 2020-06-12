@@ -6,6 +6,8 @@ defmodule Flashfeed.News.Crawler.Request do
   require Logger
   import Plug.Conn
 
+  @http_options [ssl: [{:versions, [:"tlsv1.2"]}]]
+
   def proxy(conn, url) when is_list(url) do
     [protocol | path] = url
     proxy(conn, "#{protocol}//#{Enum.join(path, "/")}")
@@ -18,7 +20,7 @@ defmodule Flashfeed.News.Crawler.Request do
   end
 
   defp process_proxy_url(conn, url) do
-    case HTTPoison.get(url) do
+    case HTTPoison.get(url, [], @http_options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body, headers: headers} = _response} ->
         {"Content-Type", content_type} = List.keyfind(headers, "Content-Type", 0)
 
@@ -44,7 +46,7 @@ defmodule Flashfeed.News.Crawler.Request do
   end
 
   def get(url, decode_json) do
-    case HTTPoison.get(url) do
+    case HTTPoison.get(url, [], @http_options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         case decode_json === true do
           true -> body |> Jason.decode()
