@@ -5,7 +5,7 @@ defmodule Flashfeed.MixProject do
   def project do
     [
       app: :flashfeed,
-      version: "0.6.1",
+      version: "0.6.2",
       elixir: "~> 1.10.2",
       description: description(),
       dialyzer: dialyzer(),
@@ -71,21 +71,21 @@ defmodule Flashfeed.MixProject do
       {:absinthe, "~> 1.5.0"},
       {:absinthe_plug, "~> 1.5.0"},
       {:absinthe_phoenix, "~> 2.0.0"},
-      {:phoenix, "~> 1.5.1"},
+      {:phoenix, "~> 1.5.3"},
       {:phoenix_pubsub, "~> 2.0.0"},
       {:phoenix_ecto, "~> 4.1.0"},
       {:phoenix_html, "~> 2.14.2", override: true},
-      {:phoenix_live_view, "~> 0.12.1", override: true},
+      {:phoenix_live_view, "~> 0.13.2", override: true},
       {:phoenix_live_reload, "~> 1.2.2", only: [:dev]},
       {:phoenix_swagger, "~> 0.8.2"},
-      {:phoenix_live_dashboard, "~> 0.2.3"},
+      {:phoenix_live_dashboard, "~> 0.2.5"},
       {:pow, "~> 1.0.20"},
       {:cachex, "~> 3.2.0"},
       {:gettext, "~> 0.18.0"},
       {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
       {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false},
-      {:telemetry_poller, "~> 0.4"},
-      {:telemetry_metrics, "~> 0.4"}
+      {:telemetry_poller, "~> 0.5.0"},
+      {:telemetry_metrics, "~> 0.5.0"}
     ]
   end
 

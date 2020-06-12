@@ -12,7 +12,10 @@ defmodule FlashfeedWeb.FeedsLive do
   end
 
   def mount(_params, %{"current_user" => current_user} = _session, socket) do
-    Logger.debug("Flashfeed.FeedsLive.mount[#{inspect(self())}]")
+    Logger.debug(
+      "Flashfeed.FeedsLive.mount[#{inspect(self())}]: #{inspect(get_connect_info(socket))}"
+    )
+
     Crawler.subscribe()
     FlashfeedWeb.UserAuthenticationCallbacks.subscribe(current_user.id)
 

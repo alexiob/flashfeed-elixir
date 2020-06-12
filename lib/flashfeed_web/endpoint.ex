@@ -16,7 +16,7 @@ defmodule FlashfeedWeb.Endpoint do
 
   socket "/live", Phoenix.LiveView.Socket,
     websocket: [
-      connect_info: [session: @session_options]
+      connect_info: [:peer_data, session: @session_options]
     ]
 
   socket "/socket", FlashfeedWeb.UserSocket,
